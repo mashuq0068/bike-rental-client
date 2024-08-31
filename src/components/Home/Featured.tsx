@@ -32,15 +32,25 @@ const FeaturedSection = () => {
       brand: 'Ducati',
       image: 'https://tse3.mm.bing.net/th?id=OIP.XRcgqNmoqjQ-leet0vxZ6AHaEo&pid=Api&P=0&h=220',
     },
+    {
+      id: 1,
+      brand: 'Yamaha',
+      image: 'https://tse2.mm.bing.net/th?id=OIP.lPGXan_cpLr_1ocj2N2kagHaE8&pid=Api&P=0&h=220',
+    },
+    {
+      id: 2,
+      brand: 'Honda',
+      image: 'https://tse1.mm.bing.net/th?id=OIP.Eo_HL5wVV4Njb7aagf31KAHaEK&pid=Api&P=0&h=220',
+    },
   ];
 
   return (
     <section className="">
       <div className=" mx-auto px-4">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
           Available <span className='text-red-500'>Bikes</span>
         </h2>
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {bikes.map((bike) => (
             <div
               key={bike.id}

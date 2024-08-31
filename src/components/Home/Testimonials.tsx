@@ -24,23 +24,35 @@ const testimonials = [
     image: 'https://randomuser.me/api/portraits/men/65.jpg',
     quote: 'I loved the ease of booking and the quality of the bikes. Highly recommend!',
   },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    image: 'https://randomuser.me/api/portraits/women/44.jpg',
+    quote: 'The bikes are top-notch, and the customer service is unbeatable.',
+  },
+  {
+    id: 3,
+    name: 'Michael Brown',
+    image: 'https://randomuser.me/api/portraits/men/65.jpg',
+    quote: 'I loved the ease of booking and the quality of the bikes. Highly recommend!',
+  },
 ];
 
-const TestimonialSection = () => {
+const Testimonials = () => {
   return (
-    <section className="py-16 bg-gray-100">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12 text-gray-800">
+    <section className="">
+      <div className=" mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
           What Our <span className="text-red-500">Customers</span> Say
         </h2>
         <Swiper
           modules={[Pagination, Navigation]}
           spaceBetween={30}
-          slidesPerView={1}
+          slidesPerView={3}
           navigation
           pagination={{ clickable: true }}
           loop={true}
-          className="max-w-2xl mx-auto"
+          className=" mx-auto"
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
@@ -65,4 +77,4 @@ const TestimonialSection = () => {
   );
 };
 
-export default TestimonialSection;
+export default Testimonials;
