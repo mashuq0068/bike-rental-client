@@ -1,3 +1,4 @@
+import ContactUs from "../../components/Home/ContactUs";
 import CouponsAndDiscounts from "../../components/Home/CuponsAndDiscounts";
 import Featured from "../../components/Home/Featured";
 import HeroSection from "../../components/Home/HeroSection";
@@ -19,6 +20,9 @@ const Home = () => {
       </section>
       <section>
         <CouponsAndDiscounts />
+      </section>
+      <section className="container">
+        <ContactUs/>
       </section>
     </div>
   );
