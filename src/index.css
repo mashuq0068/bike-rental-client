@@ -21,11 +21,29 @@
     padding-right: 16px;
   }
 }
+.double-line-text {
+  font-size: 40px; /* Adjust as needed */
+  color: transparent; /* Make the main text transparent */
+  -webkit-text-stroke: 2px rgb(249, 100, 46); /* Outer line */
+  position: relative;
+}
+
+.double-line-text::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  color: white; /* Color of the inner line */
+  -webkit-text-stroke: 6px black; /* Thickness and color of the outer line */
+}
+
+
+
 
 
 @media (max-width: 768px) {
   .menu-desktop {
-    display: none;
+    display: none !important;
   }
 }
 

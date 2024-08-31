@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Layout, Menu, Dropdown, Button, Drawer } from "antd";
+import { Layout, Menu, Dropdown, Drawer } from "antd";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
+import { NavLink } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -24,22 +25,25 @@ const Navbar = () => {
   );
 
   return (
-    <Layout>
+    <Layout className="bg-red-500">
       <Header
+        className="bg-red-500"
         style={{
+          padding: "16px",
           display: "flex",
+          color: "white",
           justifyContent: "space-between",
           alignItems: "center",
-          width:"100%"
+          width: "100%",
         }}
       >
-         {/* Hamburger Menu for smaller screens */}
-         <MenuOutlined
+        {/* Hamburger Menu for smaller screens */}
+        <MenuOutlined
           className="menu-mobile"
           onClick={showDrawer}
           style={{ color: "#fff", fontSize: "24px" }}
         />
-     {/* navLinks for small screen */}
+        {/* navLinks for small screen */}
         <Drawer
           title="Menu"
           placement="left"
@@ -52,33 +56,64 @@ const Navbar = () => {
             <Menu.Item key="2">About</Menu.Item>
             <Menu.Item key="3">Contact</Menu.Item>
           </Menu>
-        
         </Drawer>
-        <div className="logo" style={{ color: "#fff", fontSize: "24px" }}>
-          MyLogo
+        <div className="logo" style={{ fontSize: "24px", maxWidth: "200px" }}>
+          <img
+            src="https://i.ibb.co/1RYsdcG/Screenshot-2024-08-27-211901-removebg-preview.png"
+            alt=""
+          />
         </div>
-
-         
 
         {/* Menu for larger screens */}
         <Menu
-          theme="dark"
           mode="horizontal"
-          className="menu-desktop"
-          style={{ flex: 1 }}
+          style={{
+            color: "white",
+            display: "flex",
+            gap: "20px",
+          }}
+          className="menu-desktop bg-red-500"
+          // style={{ flex: 1 }}
         >
-          <Menu.Item key="1">Home</Menu.Item>
-          <Menu.Item key="2">About</Menu.Item>
-          <Menu.Item key="3">Contact</Menu.Item>
+          <NavLink
+            to="/"
+            style={{
+              color: "white",
+            }}
+            key="1"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/"
+            style={{
+              color: "white",
+            }}
+            key="2"
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/"
+            style={{
+              color: "white",
+            }}
+            key="3"
+          >
+            Contact
+          </NavLink>
         </Menu>
         {/* user menu for large screens */}
-        <Dropdown overlay={menu} >
-          <Button type="primary">
-            User <DownOutlined />
-          </Button>
+        <Dropdown className="bg-red-500 flex hover:bg-red-500" overlay={menu}>
+          <div className="flex gap-2 ">
+            <img
+            className="w-[40px] rounded-[50%]"
+              src="https://static.vecteezy.com/system/resources/previews/009/749/751/original/avatar-man-icon-cartoon-male-profile-mascot-illustration-head-face-business-user-logo-free-vector.jpg"
+              alt=""
+            />{" "}
+            <DownOutlined />
+          </div>
         </Dropdown>
-
-       
       </Header>
     </Layout>
   );
