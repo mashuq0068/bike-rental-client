@@ -52,9 +52,33 @@ const Navbar = () => {
           className="menu-mobile-drawer"
         >
           <Menu mode="vertical">
-            <Menu.Item key="1">Home</Menu.Item>
-            <Menu.Item key="2">About</Menu.Item>
-            <Menu.Item key="3">Contact</Menu.Item>
+            <NavLink
+              to="/"
+              style={{
+                color: "white",
+              }}
+              key="1"
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/about-us"
+              style={{
+                color: "white",
+              }}
+              key="2"
+            >
+              About
+            </NavLink>
+            <NavLink
+              to="/"
+              style={{
+                color: "white",
+              }}
+              key="3"
+            >
+              Contact
+            </NavLink>
           </Menu>
         </Drawer>
         <div className="logo" style={{ fontSize: "24px", maxWidth: "200px" }}>
@@ -85,7 +109,7 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
-            to="/"
+            to="/about-us"
             style={{
               color: "white",
             }}
@@ -107,7 +131,7 @@ const Navbar = () => {
         <Dropdown className="bg-red-500 flex hover:bg-red-500" overlay={menu}>
           <div className="flex gap-2 ">
             <img
-            className="w-[40px] rounded-[50%]"
+              className="w-[40px] rounded-[50%]"
               src="https://static.vecteezy.com/system/resources/previews/009/749/751/original/avatar-man-icon-cartoon-male-profile-mascot-illustration-head-face-business-user-logo-free-vector.jpg"
               alt=""
             />{" "}
