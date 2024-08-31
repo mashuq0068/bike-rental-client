@@ -4,19 +4,19 @@ import { FaTag, FaInfoCircle } from 'react-icons/fa';
 const promotions = [
   {
     id: 1,
-    code: 'SUMMER21',
+    code: 'SUMTO45',
     discount: '42% OFF',
     description: 'Get 42% off on all bike rentals this summer!',
   },
   {
     id: 2,
-    code: 'FREERIDE',
+    code: 'JACK4005',
     discount: 'First Ride Free',
     description: 'Enjoy your first ride on us. Use code at checkout!',
   },
   {
     id: 3,
-    code: 'WEEKEND',
+    code: 'LOCALBOY',
     discount: '15% OFF',
     description: 'Save 15% on weekend rentals. Valid for all bikes.',
   },
