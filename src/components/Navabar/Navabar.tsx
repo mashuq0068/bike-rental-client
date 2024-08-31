@@ -49,32 +49,26 @@ const Navbar = () => {
           placement="left"
           onClose={closeDrawer}
           visible={visible}
-          className="menu-mobile-drawer"
+          className="menu-mobile-drawer bg-red-500"
         >
-          <Menu mode="vertical">
+          <Menu  className="flex flex-col gap-12">
             <NavLink
               to="/"
-              style={{
-                color: "white",
-              }}
+              
               key="1"
             >
               Home
             </NavLink>
             <NavLink
               to="/about-us"
-              style={{
-                color: "white",
-              }}
+              
               key="2"
             >
               About
             </NavLink>
             <NavLink
               to="/"
-              style={{
-                color: "white",
-              }}
+              
               key="3"
             >
               Contact

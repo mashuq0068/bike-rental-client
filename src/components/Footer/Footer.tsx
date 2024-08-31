@@ -10,7 +10,7 @@ const Footer = () => {
                   <p className="text-3xl md:text-4xl font-extrabold text-center  ">
                     <span className="text-red-500">Bike</span>Ease
                   </p>
-                  <p className="  whitespace-nowrap mt-3">
+                  <p className="  lg:whitespace-nowrap mt-3">
                   The best rental service for bike lovers
                 </p>
                 </div>
