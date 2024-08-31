@@ -1,3 +1,4 @@
+import CouponsAndDiscounts from "../../components/Home/CuponsAndDiscounts";
 import Featured from "../../components/Home/Featured";
 import HeroSection from "../../components/Home/HeroSection";
 import Testimonials from "../../components/Home/Testimonials";
@@ -16,7 +17,9 @@ const Home = () => {
       <section className="container">
         <Testimonials />
       </section>
-      
+      <section>
+        <CouponsAndDiscounts />
+      </section>
     </div>
   );
 };

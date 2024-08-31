@@ -29,7 +29,7 @@ const WhyChooseUs = () => {
         <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
           Why <span className="text-red-500">Choose Us</span>
         </h2>
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-12 md:grid-cols-2 mb-8 lg:grid-cols-3">
           {benefits.map((benefit) => (
             <div
               key={benefit.id}
