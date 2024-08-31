@@ -5,6 +5,8 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import SignUp from "../pages/SignUp/SignUp";
 import Login from "../pages/Login/Login";
 import Error from "../pages/Error/Error";
+import DashboardLayout from "../components/layout/DashboardLayout";
+
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,17 @@ const router = createBrowserRouter([
         element: <AboutUs />,
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    errorElement: <Error />,
+    // children : [
+    //   {
+    //      path:'/dashboard',
+    //      element:<Contact/>
+    //   }
+    // ]
   },
 ]);
 export default router;

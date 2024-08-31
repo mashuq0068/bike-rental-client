@@ -38,9 +38,23 @@
 }
 
 
-
-
-
+:where(.css-dev-only-do-not-override-11lehqq).ant-menu-light .ant-menu-item-selected, :where(.css-dev-only-do-not-override-11lehqq).ant-menu-light>.ant-menu .ant-menu-item-selected {
+  background-color: #ef4444;
+}
+:where(.css-dev-only-do-not-override-11lehqq).ant-menu-light .ant-menu-item-selected, :where(.css-dev-only-do-not-override-11lehqq).ant-menu-light>.ant-menu .ant-menu-item-selected {
+  color: white;
+}
+:where(.css-dev-only-do-not-override-11lehqq).ant-menu-light, :where(.css-dev-only-do-not-override-11lehqq).ant-menu-light>.ant-menu {
+  color: black;
+  padding-top: 4vh;
+  height: 100vh;
+  position:fixed;
+  top: 0px;
+  background: rgb(235, 233, 233)
+}
+:where(.css-dev-only-do-not-override-11lehqq).ant-menu-inline.ant-menu-root .ant-menu-item, :where(.css-dev-only-do-not-override-11lehqq).ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
+  margin-top: 20px;
+}
 @media (max-width: 768px) {
   .menu-desktop {
     display: none !important;
