@@ -5,7 +5,7 @@ const DashboardLayout = () => {
   return (
     <div className="lg:flex">
       <MenuItems />
-      <div className="lg:w-[70%] justify-self-end mx-auto">
+      <div className="outlet-dashboard-width lg:mt-0 mt-[14vh]  justify-self-end ml-auto">
         <Outlet />
       </div>
     </div>

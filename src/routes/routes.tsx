@@ -6,7 +6,9 @@ import SignUp from "../pages/SignUp/SignUp";
 import Login from "../pages/Login/Login";
 import Error from "../pages/Error/Error";
 import DashboardLayout from "../components/layout/DashboardLayout";
-
+import AdminProfile from "../pages/Dashboard/Admin/AdminProfile";
+import BikeManagement from "../pages/Dashboard/Admin/BikeManagement";
+import UserManagement from "../pages/Dashboard/Admin/UserManagement";
 
 const router = createBrowserRouter([
   {
@@ -30,18 +32,28 @@ const router = createBrowserRouter([
         path: "about-us",
         element: <AboutUs />,
       },
+      // dashboard
     ],
   },
   {
     path: "/dashboard",
     element: <DashboardLayout />,
     errorElement: <Error />,
-    // children : [
-    //   {
-    //      path:'/dashboard',
-    //      element:<Contact/>
-    //   }
-    // ]
+    children: [
+      // admin routes
+      {
+        path: "/dashboard/admin/profile",
+        element: <AdminProfile />,
+      },
+      {
+        path: "/dashboard/admin/bike-management",
+        element: <BikeManagement />,
+      },
+      {
+        path: "/dashboard/admin/user-management",
+        element: <UserManagement />,
+      },
+    ],
   },
 ]);
 export default router;

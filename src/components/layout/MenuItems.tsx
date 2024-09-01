@@ -1,61 +1,107 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiMenu, FiX } from "react-icons/fi"; // Import menu icon from react-icons
 import {
-    AppstoreOutlined,
-    MailOutlined,
-    SettingOutlined,
-  } from "@ant-design/icons";
-  import type { MenuProps } from "antd";
-  import { Menu } from "antd";
-  
-  type MenuItem = Required<MenuProps>["items"][number];
-  
-  const items: MenuItem[] = [
-    {
-      key: "sub1",
-      label: "Profile",
-      icon: <MailOutlined />,
-    },
-    {
-      key: "sub2",
-      label: "Bike Management",
-      icon: <AppstoreOutlined />,
-    },
-   
-    {
-      key: "sub4",
-      label: "User Management",
-      icon: <SettingOutlined />,
-      
-    },
-    {
-      key: "sub5",
-      label: "Return Bike",
-      icon: <SettingOutlined />,
-    },
-    {
-      key: "sub6",
-      label: "Home",
-      icon: <SettingOutlined />,
-    },
-  ];
-  const MenuItems = () => {
-   
-  
-    const onClick: MenuProps["onClick"] = (e) => {
-      console.log("click ", e);
-    };
-    return (
-      <div>
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import { Menu } from "antd";
+
+interface CustomMenuItem {
+  key: string;
+  label: string;
+  icon?: React.ReactNode;
+  url?: string;
+  children?: CustomMenuItem[];
+}
+
+const items: CustomMenuItem[] = [
+  {
+    key: "sub1",
+    label: "Profile",
+    icon: <MailOutlined />,
+    url: "/dashboard/admin/profile",
+  },
+  {
+    key: "sub2",
+    label: "Bike Management",
+    icon: <AppstoreOutlined />,
+    url: "/dashboard/admin/bike-management",
+  },
+  {
+    key: "sub4",
+    label: "User Management",
+    icon: <SettingOutlined />,
+    url: "/dashboard/admin/user-management",
+  },
+  {
+    key: "sub5",
+    label: "Return Bike",
+    icon: <SettingOutlined />,
+    url: "/dashboard/admin/return-bike",
+  },
+  {
+    key: "sub6",
+    label: "Home",
+    icon: <SettingOutlined />,
+    url: "/",
+  },
+];
+
+const MenuItems: React.FC = () => {
+  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleClick: MenuProps["onClick"] = (e) => {
+    const clickedItem = items.find(
+      (item) => item.key === e.key
+    ) as CustomMenuItem;
+    if (clickedItem?.url) {
+      navigate(clickedItem.url);
+    }
+  };
+
+  return (
+    <div className="menu-bar z-50 fixed top-0 w-full lg:w-auto left-0 ">
+      {/* Logo and Menu Icon Section */}
+      <div className="flex items-center justify-between w-full lg:w-64 h-full bg-[#ebe9e9] p-5">
+        <div className="text-2xl md:text-3xl font-extrabold">
+          <span className="text-red-500">Bike</span>Ease
+        </div>
+        <button
+          className="lg:hidden text-2xl"
+          onClick={() => setDrawerOpen(!drawerOpen)}
+        >
+          {drawerOpen ? <FiX /> : <FiMenu />}
+        </button>
+      </div>
+
+      {/* Drawer (Sidebar Menu) */}
+      <div
+        className={`fixed top-0 left-0 bg-[#ebe9e9] h-full w-64 transform ${
+          drawerOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out lg:static lg:translate-x-0`}
+      >
         <Menu
-          onClick={onClick}
-          style={{ width: 256 }}
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          onClick={handleClick}
+          style={{ width: "100%" }}
+          defaultSelectedKeys={["sub1"]}
           mode="inline"
-          items={items}
+          items={items.map((item) => ({
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+            children: item.children?.map((child) => ({
+              key: child.key,
+              icon: child.icon,
+              label: child.label,
+            })),
+          }))}
         />
       </div>
-    );
-  };
-  
-  export default MenuItems;
-  
+    </div>
+  );
+};
+
+export default MenuItems;
