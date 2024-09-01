@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Layout, Menu, Dropdown, Drawer } from "antd";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const { Header } = Layout;
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
   const showDrawer = () => {
     setVisible(true);
@@ -18,8 +19,8 @@ const Navbar = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="1">Profile</Menu.Item>
-      <Menu.Item key="2">Settings</Menu.Item>
+      <Menu.Item onClick={() => navigate('/dashboard')} key="1">Profile</Menu.Item>
+      <Menu.Item onClick={() => navigate('/dashboard')} key="2">Dashboard</Menu.Item>
       <Menu.Item key="3">Logout</Menu.Item>
     </Menu>
   );
@@ -51,32 +52,24 @@ const Navbar = () => {
           visible={visible}
           className="menu-mobile-drawer bg-red-500"
         >
-          <Menu  className="flex flex-col gap-12">
-            <NavLink
-              to="/"
-              
-              key="1"
-            >
+          <Menu className="flex flex-col gap-12">
+            <NavLink to="/dashboard/admin/profile" key="1">
+              Dashboard
+            </NavLink>
+            <NavLink to="/" key="1">
               Home
             </NavLink>
-            <NavLink
-              to="/about-us"
-              
-              key="2"
-            >
+            <NavLink to="/about-us" key="2">
               About
             </NavLink>
-            <NavLink
-              to="/"
-              
-              key="3"
-            >
+            <NavLink to="/" key="3">
               Contact
             </NavLink>
           </Menu>
         </Drawer>
         <div className="logo" style={{ fontSize: "24px", maxWidth: "200px" }}>
           <img
+            onClick={() => navigate("/")}
             src="https://i.ibb.co/1RYsdcG/Screenshot-2024-08-27-211901-removebg-preview.png"
             alt=""
           />
@@ -93,6 +86,9 @@ const Navbar = () => {
           className="menu-desktop bg-red-500"
           // style={{ flex: 1 }}
         >
+          <NavLink to="/dashboard/admin/profile" key="1">
+            Dashboard
+          </NavLink>
           <NavLink
             to="/"
             style={{

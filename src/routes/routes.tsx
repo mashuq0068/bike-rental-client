@@ -9,6 +9,7 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import AdminProfile from "../pages/Dashboard/Admin/AdminProfile";
 import BikeManagement from "../pages/Dashboard/Admin/BikeManagement";
 import UserManagement from "../pages/Dashboard/Admin/UserManagement";
+import BikeReturn from "../pages/Dashboard/Admin/BikeReturn";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/admin/user-management",
         element: <UserManagement />,
+      },
+      {
+        path: "/dashboard/admin/return-bike",
+        element: <BikeReturn />,
       },
     ],
   },
