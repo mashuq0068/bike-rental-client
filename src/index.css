@@ -9,8 +9,23 @@
   padding-left: 40px;
   padding-right: 40px;
 }
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --primary-color: #696cff;
+  --header-bg-color: #696cff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a2e;
+  --text-color: #e1e1e6;
+  --primary-color: #bb86fc;
+  --header-bg-color: #333;
+}
 body{
   font-family: "Work Sans", sans-serif !important;
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
 }
 @media (max-width: 1160px) {
   .container {
@@ -84,6 +99,30 @@ input:focus , textarea:focus{
 }
 .ant-table-cell{
   white-space: noWrap;
+}
+.theme-toggle {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--icon-color);
+  transition: color 0.3s ease;
+}
+
+.icon {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .icon {
+  transform: scale(1.2);
+}
+
+[data-theme="light"] {
+  --icon-color: #f39c12; /* Sun color */
+}
+
+[data-theme="dark"] {
+  --icon-color: #f1c40f; /* Moon color */
 }
 
 @media (min-width: 769px) {

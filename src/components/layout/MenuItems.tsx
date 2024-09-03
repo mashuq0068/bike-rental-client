@@ -16,7 +16,7 @@ interface CustomMenuItem {
   children?: CustomMenuItem[];
 }
 
-const items: CustomMenuItem[] = [
+const adminItems: CustomMenuItem[] = [
   {
     key: "sub1",
     label: "Profile",
@@ -43,15 +43,42 @@ const items: CustomMenuItem[] = [
   },
   {
     key: "sub6",
+    label: "Coupon Management",
+    icon: <SettingOutlined />,
+    url: "/dashboard/admin/coupon-management",
+  },
+  {
+    key: "sub7",
     label: "Home",
     icon: <SettingOutlined />,
     url: "/",
   },
 ];
-
+const userItems: CustomMenuItem[] = [
+  {
+    key: "sub1",
+    label: "Profile",
+    icon: <MailOutlined />,
+    url: "/dashboard/user/profile",
+  },
+  {
+    key: "sub2",
+    label: "Bike Management",
+    icon: <AppstoreOutlined />,
+    url: "/dashboard/user/bike-management",
+  },
+  {
+    key: "sub4",
+    label: "My Rental",
+    icon: <SettingOutlined />,
+    url: "/dashboard/user/my-rental",
+  },
+];
 const MenuItems: React.FC = () => {
+  const user:string = "user";
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const items = user === "admin" ? adminItems : userItems;
 
   const handleClick: MenuProps["onClick"] = (e) => {
     const clickedItem = items.find(
@@ -69,7 +96,7 @@ const MenuItems: React.FC = () => {
         <div className="text-xl xl:text-2xl text-gray-800 font-extrabold">
           <span className="text-red-500">Bike</span>Ease
         </div>
-      
+
         <button
           className="lg:hidden text-2xl"
           onClick={() => setDrawerOpen(!drawerOpen)}

@@ -91,6 +91,7 @@ const BikeManagement: React.FC = () => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDelete = (bikeId: string) => {
     notification.success({
       message: "Success",

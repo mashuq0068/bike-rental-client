@@ -17,6 +17,7 @@ const usersData: User[] = [
 ];
 
 const UserManagementTable = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [users, setUsers] = useState<User[]>(usersData);
 
   const deleteUser = (key: string) => {
@@ -43,6 +44,7 @@ const UserManagementTable = () => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const promoteToAdmin = (key: string) => {
     // setUsers(users.map(user =>
     //   user.key === key ? { ...user, role: 'Admin' } : user
