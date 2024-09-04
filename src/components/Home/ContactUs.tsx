@@ -1,7 +1,10 @@
 
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { useAppSelector } from '../../redux/hooks';
 
 const ContactUs = () => {
+  const user = useAppSelector((state) => state.auth)
+  console.log("new user data => " , user);
   return (
     <section className="pb-16 bg-gray-200">
       <div className="container mx-auto px-4">

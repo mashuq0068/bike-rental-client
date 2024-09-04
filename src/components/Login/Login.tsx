@@ -1,5 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { openSuccessNotification } from "../../utils/successNotification";
+import { openErrorNotification } from "../../utils/errorNotification";
+import { Spin } from "antd";
+import Cookies from "js-cookie";
+import { IUser, setUser } from "../../redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 interface LoginData {
   email: string;
@@ -7,13 +14,40 @@ interface LoginData {
 }
 
 const LoginForm = () => {
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
 
-  const onSubmit = (data: LoginData) => {
+  const onSubmit = async (data: LoginData) => {
+    const res = await login(data);
+    if (res?.data?.success) {
+      openSuccessNotification("you logged is successfully");
+      Cookies.set("token", res.data.token, { expires: 7 });
+      const { name, email, role } = res?.data?.data ?? { name: null, email: null, role: null };
+      const user: IUser = {
+        name,
+        email,
+        role,
+      };
+      dispatch(setUser(user));
+      console.log(res);
+      if (location.state) {
+        navigate(location.state);
+      } else {
+        navigate("/");
+      }
+    }
+    if (res?.error) {
+      openErrorNotification("Invalid email or password given");
+    }
+
     console.log(data);
   };
 
@@ -48,10 +82,10 @@ const LoginForm = () => {
                   id="email"
                   {...register("email", {
                     required: "Email is required",
-                    pattern: {
-                      value: /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                      message: "Enter a valid email address",
-                    },
+                    // pattern: {
+                    //   value: /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                    //   message: "Enter a valid email address",
+                    // },
                   })}
                   placeholder="Enter your email"
                   className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
@@ -94,7 +128,7 @@ const LoginForm = () => {
                 type="submit"
                 className="w-full py-3 px-4 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-all duration-300"
               >
-                Login
+                {isLoading ? <Spin className="custom-button-spin" /> : "Login"}
               </button>
               <div>
                 <p className="text-center mt-5">
