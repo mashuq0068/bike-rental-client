@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaDollarSign, FaMotorcycle, FaHeadset } from 'react-icons/fa';
 
 const WhyChooseUs = () => {

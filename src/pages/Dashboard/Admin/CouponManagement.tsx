@@ -1,4 +1,4 @@
-import React from "react";
+
 import CouponManagementTable from "../../../components/Dashboard/Admin/CouponManagement/CouponManagementTable";
 
 const CouponManagement = () => {

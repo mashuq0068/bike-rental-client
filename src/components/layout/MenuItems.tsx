@@ -75,7 +75,7 @@ const userItems: CustomMenuItem[] = [
   },
 ];
 const MenuItems: React.FC = () => {
-  const user:string = "user";
+  const user:string = "admin";
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const items = user === "admin" ? adminItems : userItems;

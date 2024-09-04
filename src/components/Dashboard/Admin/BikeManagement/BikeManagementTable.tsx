@@ -93,6 +93,7 @@ const BikeManagement: React.FC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDelete = (bikeId: string) => {
+    console.log(bikeId);
     notification.success({
       message: "Success",
       description: "The bike has been successfully deleted.",
@@ -148,7 +149,8 @@ const BikeManagement: React.FC = () => {
       title: "Actions",
       key: "actions",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      render: (text: any, record: Bike) => (
+      render: (_text: any, record: Bike) => (
+        
         <div className="space-x-2">
           <Button
             type="primary"

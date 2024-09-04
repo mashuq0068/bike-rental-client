@@ -63,7 +63,7 @@ const Navbar = () => {
           title="Menu"
           placement="left"
           onClose={closeDrawer}
-          visible={visible}
+          open={visible}
           className="menu-mobile-drawer bg-red-500"
         >
           <Menu className="flex flex-col gap-12">

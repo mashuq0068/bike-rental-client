@@ -37,7 +37,7 @@ const BikeReturnTable = () => {
 
   // Calculate cost and update status
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const calculateCost = (rentalId: string, endTime: string) => {
+  const calculateCost = (rentalId: string, _endTime: string) => {
     // Placeholder cost calculation logic
     const updatedRentals = rentalList.map((rental) =>
       rental.id === rentalId

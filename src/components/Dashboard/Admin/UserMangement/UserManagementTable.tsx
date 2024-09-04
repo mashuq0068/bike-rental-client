@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Table, Button, Modal, notification } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 // import 'antd/dist/antd.css'; // Import Ant Design styles
@@ -18,7 +18,7 @@ const usersData: User[] = [
 
 const UserManagementTable = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [users, setUsers] = useState<User[]>(usersData);
+  const [users] = useState<User[]>(usersData);
 
   const deleteUser = (key: string) => {
     Modal.confirm({
@@ -45,7 +45,7 @@ const UserManagementTable = () => {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const promoteToAdmin = (key: string) => {
+  const promoteToAdmin = (_key: string) => {
     // setUsers(users.map(user =>
     //   user.key === key ? { ...user, role: 'Admin' } : user
     // ));

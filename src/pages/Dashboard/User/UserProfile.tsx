@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { SmileOutlined } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
 
