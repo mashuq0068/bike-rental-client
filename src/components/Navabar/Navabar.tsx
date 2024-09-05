@@ -1,14 +1,19 @@
-import {  useState } from "react";
-import { Layout, Menu, Dropdown, Drawer } from "antd";
+import { useState } from "react";
+import { Layout, Menu, Dropdown, Drawer, Modal } from "antd";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 // import { FaMoon, FaSun } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const { Header } = Layout;
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+  const user = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   // const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   // useEffect(() => {
@@ -27,6 +32,15 @@ const Navbar = () => {
   const closeDrawer = () => {
     setVisible(false);
   };
+  const handleLogout = () => {
+    Modal.confirm({
+      title: "Are you sure you want to Logout?",
+      content: `If you logout, you have to login again to get private access`,
+      okText: "Yes",
+      cancelText: "No",
+      onOk: () => {dispatch(logout()) ,Cookies.remove("token", { path: '/' });},
+    });
+  }
   const menu = (
     <Menu>
       <Menu.Item onClick={() => navigate("/dashboard")} key="1">
@@ -76,9 +90,14 @@ const Navbar = () => {
             <NavLink to="/about-us" key="2">
               About
             </NavLink>
-            <NavLink to="/" key="3">
+            <NavLink to="/contact-us" key="3">
               Contact
             </NavLink>
+            {user?.email ? (
+              <button onClick={handleLogout}>Logout</button>
+            ) : (
+              <button onClick={() => navigate("/login")}>Login</button>
+            )}
           </Menu>
         </Drawer>
         <div className="logo" style={{ fontSize: "24px", maxWidth: "200px" }}>
@@ -122,7 +141,7 @@ const Navbar = () => {
             About
           </NavLink>
           <NavLink
-            to="/"
+            to="/contact-us"
             style={{
               color: "white",
             }}
@@ -130,6 +149,11 @@ const Navbar = () => {
           >
             Contact
           </NavLink>
+          {user?.email ? (
+            <button onClick={ handleLogout}>Logout</button>
+          ) : (
+            <button onClick={() => navigate("/login")}>Login</button>
+          )}
         </Menu>
         {/* dark mode light mode */}
         {/* <button onClick={toggleTheme} className="theme-toggle">

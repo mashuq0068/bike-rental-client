@@ -15,6 +15,7 @@ import UserProfile from "../pages/Dashboard/User/UserProfile";
 import UserBikeManagement from "../pages/Dashboard/User/UserBikeMangement";
 import BikeDetails from "../pages/Dashboard/User/BikeDetails";
 import MyRental from "../pages/Dashboard/User/MyRental";
+import ContactUs from "../components/Home/ContactUs";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
         path: "about-us",
         element: <AboutUs />,
       },
+      {
+        path:'contact-us',
+        element : <ContactUs/>
+      }
       // dashboard
     ],
   },

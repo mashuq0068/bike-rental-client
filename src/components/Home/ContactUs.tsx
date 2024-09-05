@@ -6,7 +6,7 @@ const ContactUs = () => {
   const user = useAppSelector((state) => state.auth)
   console.log("new user data => " , user);
   return (
-    <section className="pb-16 bg-gray-200">
+    <section className="pb-16 pt-4 bg-gray-200">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
           <span className="text-red-500">Contact</span> Us
