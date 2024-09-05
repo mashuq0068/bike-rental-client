@@ -8,11 +8,13 @@ import Cookies from "js-cookie";
 import { IUser, setUser } from "../../redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
-interface LoginData {
+export interface LoginData {
   email: string;
   password: string;
 }
-
+export interface IData{
+    
+}
 const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
@@ -25,8 +27,10 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginData>();
 
+ 
   const onSubmit = async (data: LoginData) => {
     const res = await login(data);
+    console.log(res);
     if (res?.data?.success) {
       openSuccessNotification("you logged is successfully");
       Cookies.set("token", res.data.token, { expires: 7 });

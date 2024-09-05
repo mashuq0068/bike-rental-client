@@ -7,6 +7,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
+import { useAppSelector } from "../../redux/hooks";
 
 interface CustomMenuItem {
   key: string;
@@ -75,10 +76,10 @@ const userItems: CustomMenuItem[] = [
   },
 ];
 const MenuItems: React.FC = () => {
-  const user:string = "admin";
+  const user = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const items = user === "admin" ? adminItems : userItems;
+  const items = user?.role === "admin" ? adminItems : userItems;
 
   const handleClick: MenuProps["onClick"] = (e) => {
     const clickedItem = items.find(

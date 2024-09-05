@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../../redux/features/auth/authApi";
 import { notification, Spin } from "antd";
 
-interface SignUpFormData {
+export interface SignUpFormData {
   name: string;
   email: string;
   password: string;
@@ -11,7 +11,7 @@ interface SignUpFormData {
   address: string;
 }
 
-const SignUpForm = () => {
+export const SignUpForm = () => {
   const [signup , {isLoading}] = useSignUpMutation();
   const navigate = useNavigate();
   const {
