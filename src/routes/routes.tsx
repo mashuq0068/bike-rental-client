@@ -16,6 +16,7 @@ import UserBikeManagement from "../pages/Dashboard/User/UserBikeMangement";
 import BikeDetails from "../pages/Dashboard/User/BikeDetails";
 import MyRental from "../pages/Dashboard/User/MyRental";
 import ContactUs from "../components/Home/ContactUs";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -40,9 +41,9 @@ const router = createBrowserRouter([
         element: <AboutUs />,
       },
       {
-        path:'contact-us',
-        element : <ContactUs/>
-      }
+        path: "contact-us",
+        element: <ContactUs />,
+      },
       // dashboard
     ],
   },
@@ -54,28 +55,52 @@ const router = createBrowserRouter([
       // admin routes
       {
         path: "/dashboard/admin/profile",
-        element: <AdminProfile />,
+        element: (
+          <ProtectedRoute access="admin">
+            <AdminProfile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboard/admin/bike-management",
-        element: <BikeManagement />,
+        element: (
+          <ProtectedRoute access="admin">
+            <BikeManagement />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboard/admin/user-management",
-        element: <UserManagement />,
+        element: (
+          <ProtectedRoute access="admin">
+            <UserManagement />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboard/admin/return-bike",
-        element: <BikeReturn />,
+        element: (
+          <ProtectedRoute access="admin">
+            <BikeReturn />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboard/admin/coupon-management",
-        element: <CouponManagement />,
+        element: (
+          <ProtectedRoute access="admin">
+            <CouponManagement />
+          </ProtectedRoute>
+        ),
       },
       // user routes
       {
         path: "/dashboard/user/profile",
-        element: <UserProfile />,
+        element: (
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboard/user/bike-management",
@@ -83,11 +108,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/user/bike-details/:id",
-        element: <BikeDetails />,
+        element: (
+          <ProtectedRoute>
+            <BikeDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/dashboard/user/my-rental",
-        element: <MyRental/>,
+        element: (
+          <ProtectedRoute>
+            <MyRental />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

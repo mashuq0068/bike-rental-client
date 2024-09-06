@@ -80,7 +80,10 @@ const MenuItems: React.FC = () => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const items = user?.role === "admin" ? adminItems : userItems;
-
+  const defaultSelectedKey = items.find((item) =>
+    location.pathname.startsWith(item.url || "")
+  )?.key;
+  console.log(defaultSelectedKey);
   const handleClick: MenuProps["onClick"] = (e) => {
     const clickedItem = items.find(
       (item) => item.key === e.key
@@ -115,7 +118,8 @@ const MenuItems: React.FC = () => {
         <Menu
           onClick={handleClick}
           style={{ width: "100%" }}
-          defaultSelectedKeys={["sub1"]}
+          defaultSelectedKeys={[defaultSelectedKey as string]}
+          // defaultSelectedKeys={["sub1"]}
           mode="inline"
           items={items.map((item) => ({
             key: item.key,

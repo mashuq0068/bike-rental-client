@@ -38,9 +38,11 @@ const Navbar = () => {
       content: `If you logout, you have to login again to get private access`,
       okText: "Yes",
       cancelText: "No",
-      onOk: () => {dispatch(logout()) ,Cookies.remove("token", { path: '/' });},
+      onOk: () => {
+        dispatch(logout()), Cookies.remove("token", { path: "/" });
+      },
     });
-  }
+  };
   const menu = (
     <Menu>
       <Menu.Item onClick={() => navigate("/dashboard")} key="1">
@@ -81,7 +83,12 @@ const Navbar = () => {
           className="menu-mobile-drawer bg-red-500"
         >
           <Menu className="flex flex-col gap-12">
-            <NavLink to="/dashboard/admin/profile" key="1">
+            <NavLink
+              to={`/dashboard/${
+                user?.role === "admin" ? "admin" : "user"
+              }/profile`}
+              key="1"
+            >
               Dashboard
             </NavLink>
             <NavLink to="/" key="1">
@@ -119,7 +126,12 @@ const Navbar = () => {
           className="menu-desktop bg-red-500"
           // style={{ flex: 1 }}
         >
-          <NavLink to="/dashboard/admin/profile" key="1">
+          <NavLink
+            to={`/dashboard/${
+              user?.role === "admin" ? "admin" : "user"
+            }/profile`}
+            key="1"
+          >
             Dashboard
           </NavLink>
           <NavLink
@@ -150,7 +162,7 @@ const Navbar = () => {
             Contact
           </NavLink>
           {user?.email ? (
-            <button onClick={ handleLogout}>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           ) : (
             <button onClick={() => navigate("/login")}>Login</button>
           )}

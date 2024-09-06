@@ -1,37 +1,44 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 
 const ProtectedRoute = ({
   access = "user",
   children,
 }: {
-  access: string;
-  children: React.ReactNode;
+  access?: string;
+  children: React.ReactElement;
 }) => {
   const user = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
-  //   if user logged in
+
+  // If the user is logged in
   if (user?.role) {
-    // if user is admin he will get all access
-    if (user?.role === "admin") {
-      return <div>{children}</div>;
+    // If the user is an admin, allow all access
+    if (user.role === "admin") {
+      return <>{children}</>;
     }
-    // if user is an user, then he can only access user routes
-    if (user?.role === "user") {
-      // if access is for user , so user can access children
+
+    // If the user is a standard user
+    if (user.role === "user") {
+      // Allow access if the route is for users
       if (access === "user") {
-        return <div>{children}</div>;
+        return <>{children}</>;
       }
-      //   if access is for admin then as an user he will be navigated in home
-      else if (access === "admin") {
-        return navigate("/");
+
+      // Navigate home if trying to access an admin route
+      if (access === "admin") {
+        navigate("/");
+        return null;
       }
     }
+  } else {
+    // If the user is not logged in, redirect to the login page
+    return <Navigate to="/login"></Navigate>;
+    // return null;
   }
-  //   if user not logged in
-  else {
-    navigate("/login");
-  }
+
+  // Return null by default if no conditions match
+  // return null;
 };
 
 export default ProtectedRoute;

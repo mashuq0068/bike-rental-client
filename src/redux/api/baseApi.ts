@@ -22,12 +22,10 @@ const customBaseQuery: BaseQueryFn<
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
   const result = await baseQuery(args, api, extraOptions);
-  const errorMessage = (result.error?.data as { message?: string })?.message;
+  // const errorMessage = (result.error?.data as { message?: string })?.message;
   if (
     result.error?.status === 401 ||
-    result.error?.status === 403 ||
-   errorMessage === "JWT expired"
-  ) {
+    result.error?.status === 403 ) {
     api.dispatch(logout());
   }
   return result;

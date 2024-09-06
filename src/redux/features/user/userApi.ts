@@ -1,32 +1,25 @@
-// import baseApi from "../../api/baseApi";
+import baseApi from "../../api/baseApi";
 
-// const userApi = baseApi.injectEndpoints({
-//   endpoints: (builder) => ({
-//     createBooking: builder.mutation({
-//       query: (rental) => {
-//         return {
-//           url: "/rentals",
-//           method: "POST",
-//           body: rental,
-//         };
-//       },
-//     }),
-//     getBookings: builder.query({
-//       query: () => {
-//         return {
-//           url: "/rentals",
-//           method: "GET",
-//         };
-//       },
-//     }),
-//     returnBike: builder.mutation({
-//       query: (data) => {
-//         return {
-//           url: `/rentals/${data?.id}`,
-//           method: "PUT",
-//           body: data?.rental,
-//         };
-//       },
-//     }),
-//   }),
-// });
+const userApi = baseApi.injectEndpoints({
+  endpoints: (builder) => ({
+    updateProfile: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/users/me",
+          method: "PUT",
+          body: data,
+        };
+      },
+    }),
+    getProfile: builder.query({
+      query: () => {
+        return {
+          url: "/users/me",
+          method: "GET",
+        };
+      },
+    }),
+  }),
+});
+
+export const { useGetProfileQuery, useUpdateProfileMutation } = userApi;

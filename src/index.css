@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -22,7 +22,7 @@
   --primary-color: #bb86fc;
   --header-bg-color: #333;
 }
-body{
+body {
   font-family: "Work Sans", sans-serif !important;
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
@@ -56,11 +56,11 @@ body{
   -webkit-text-stroke: 6px black; /* Thickness and color of the outer line */
 }
 
-
 .menu-bar .ant-menu-item-selected {
   background-color: #ef4444 !important;
   color: white !important;
 }
+
 .menu-bar .ant-menu {
   color: black !important;
   padding-top: 4vh !important;
@@ -73,23 +73,23 @@ body{
 .menu-bar .ant-menu-item {
   margin-bottom: 20px !important;
 }
- .ant-menu-submenu {
+.ant-menu-submenu {
   display: none !important;
 }
-.outlet-dashboard-width{
+.outlet-dashboard-width {
   width: calc(100% - 256px) !important;
 }
 @media (max-width: 800px) {
   .menu-desktop {
     display: none !important;
   }
-  .outlet-dashboard-width{
-    width: auto!important;
+  .outlet-dashboard-width {
+    width: auto !important;
   }
 }
-input:focus , textarea:focus{
-  outline: 1px solid #ef4444 ;
-
+input:focus,
+textarea:focus {
+  outline: 1px solid #ef4444;
 }
 .ant-btn-primary {
   background-color: #ef4444 !important;
@@ -97,7 +97,7 @@ input:focus , textarea:focus{
 .ant-btn-primary:hover {
   background-color: #f93838 !important;
 }
-.ant-table-cell{
+.ant-table-cell {
   white-space: noWrap;
 }
 .theme-toggle {
@@ -135,5 +135,4 @@ input:focus , textarea:focus{
   .menu-mobile-drawer {
     display: none;
   }
-
 }
