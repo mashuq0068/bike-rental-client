@@ -10,6 +10,7 @@ const bookingAPi = baseApi.injectEndpoints({
           body: rental,
         };
       },
+      invalidatesTags:["booking"]
     }),
     getBookings: builder.query({
       query: () => {
@@ -18,15 +19,17 @@ const bookingAPi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags : ["booking"]
     }),
     returnBike: builder.mutation({
       query: (data) => {
         return {
-          url: `/rentals/${data?.id}`,
+          url: `/rentals/${data?.id}/return`,
           method: "PUT",
           body: data?.rental,
         };
       },
+      invalidatesTags:['booking']
     }),
   }),
 });

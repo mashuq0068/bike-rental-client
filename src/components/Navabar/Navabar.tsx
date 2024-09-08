@@ -45,13 +45,31 @@ const Navbar = () => {
   };
   const menu = (
     <Menu>
-      <Menu.Item onClick={() => navigate("/dashboard")} key="1">
+      <Menu.Item
+        onClick={() =>
+          navigate(
+            `/dashboard/${user?.role === "admin" ? "admin" : "user"}/profile`
+          )
+        }
+        key="1"
+      >
         Profile
       </Menu.Item>
-      <Menu.Item onClick={() => navigate("/dashboard")} key="2">
+      <Menu.Item
+        onClick={() =>
+          navigate(
+            `/dashboard/${user?.role === "admin" ? "admin" : "user"}/profile`
+          )
+        }
+        key="2"
+      >
         Dashboard
       </Menu.Item>
-      <Menu.Item key="3">Logout</Menu.Item>
+      {user?.email ? (
+        <button className="pl-3 pt-1 pb-2" onClick={handleLogout}>Logout</button>
+      ) : (
+        <button className="pl-3 pt-1 pb-2" onClick={() => navigate("/login")}>Login</button>
+      )}
     </Menu>
   );
 

@@ -10,7 +10,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers) => {
     const token = Cookies.get("token");
     if (token) {
-      headers.set("authorization", token);
+      headers.set("authorization", `Bearer ${token}`);
     }
     return headers;
   },
@@ -27,6 +27,7 @@ const customBaseQuery: BaseQueryFn<
     result.error?.status === 401 ||
     result.error?.status === 403 ) {
     api.dispatch(logout());
+    Cookies.remove("token" , {path:'/'})
   }
   return result;
 };
@@ -35,7 +36,9 @@ const customBaseQuery: BaseQueryFn<
 const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: customBaseQuery,
+  tagTypes:["bike" , "user" , "booking"],
   endpoints: () => ({}),
+
 });
 
 export default baseApi;

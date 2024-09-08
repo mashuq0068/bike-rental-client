@@ -10,6 +10,7 @@ const bikeApi = baseApi.injectEndpoints({
           body: bike,
         };
       },
+      invalidatesTags:["bike"]
     }),
     getBikes: builder.query({
       query: () => {
@@ -18,6 +19,7 @@ const bikeApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags:["bike"]
     }),
     getSingleBike: builder.query({
       query: (id) => {
@@ -29,13 +31,26 @@ const bikeApi = baseApi.injectEndpoints({
     }),
     updateSingleBike: builder.mutation({
       query: (data) => {
+       
         return {
           url: `/bikes/${data?.id}`,
           method: "PUT",
           body: data?.bike,
         };
       },
+      invalidatesTags:["bike"]
     }),
+    deleteSingleBike: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/bikes/${id}`,
+          method: "DELETE",
+          
+        };
+      },
+      invalidatesTags:["bike"]
+    }),
+   
   }),
 });
 export const {
@@ -43,4 +58,5 @@ export const {
   useGetSingleBikeQuery,
   useAddBikeMutation,
   useUpdateSingleBikeMutation,
+  useDeleteSingleBikeMutation
 } = bikeApi;

@@ -1,57 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, notification } from "antd";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
+import { Table, Button, Modal, notification, Spin } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useForm, SubmitHandler } from "react-hook-form";
 import "antd/dist/reset.css";
+import {
+  useAddBikeMutation,
+  useDeleteSingleBikeMutation,
+  useGetBikesQuery,
+  useUpdateSingleBikeMutation,
+} from "../../../../redux/features/bike/bikeApi";
 
 // Define the Bike interface
 interface Bike {
   _id: string;
+  image?: string;
   name: string;
   description: string;
-  price: string;
+  pricePerHour: string;
   cc: string;
   year: string;
   model: string;
   brand: string;
-  availability: string;
+  isAvailable: string;
 }
 
 // Define the form inputs interface
 interface BikeFormInputs {
   name: string;
+  image?: string;
   description: string;
-  price: string;
+  pricePerHour: string;
   cc: string;
   year: string;
   model: string;
   brand: string;
-  availability: string;
+  isAvailable: string;
 }
 
-const BikeManagement: React.FC = () => {
+const BikeManagement = () => {
   const [bikes, setBikes] = useState<Bike[]>([]);
+  const { data, isLoading, isFetching } = useGetBikesQuery(undefined);
+  const [createBike] = useAddBikeMutation();
+  const [updateBike] = useUpdateSingleBikeMutation();
+  const [deleteBike] = useDeleteSingleBikeMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentBike, setCurrentBike] = useState<Bike | null>(null);
+  console.log(currentBike);
+  console.log(bikes);
 
   // Initialize default bikes (you can fetch from an API)
   useEffect(() => {
-    const defaultBikes: Bike[] = [
-      {
-        _id: "1",
-        name: "Mountain Explorer",
-        description: "A sturdy mountain bike suitable for all terrains.",
-        price: "1200",
-        cc: "200",
-        year: "2021",
-        model: "MX200",
-        brand: "TrailBlazer",
-        availability: "Available",
-      },
-      // Add more bikes as needed
-    ];
-    setBikes(defaultBikes);
-  }, []);
+    setBikes(data?.data);
+  }, [data?.data]);
 
   // React Hook Form setup
   const {
@@ -63,21 +64,72 @@ const BikeManagement: React.FC = () => {
 
   // Open modal for Create or Edit
   const openModal = (bike: Bike | null) => {
-    setCurrentBike(bike);
-    reset();
     if (bike) {
-      reset(bike as Bike);
+      reset(bike); // Fill the form with the selected bike's data
     } else {
-      reset();
+      reset({
+        // Clear the form and set default values if needed
+        name: "",
+        image: "",
+        description: "",
+        pricePerHour: "",
+        cc: "",
+        year: "",
+        model: "",
+        brand: "",
+        isAvailable: "",
+      });
     }
+    setCurrentBike(bike);
     setIsModalOpen(true);
-   
   };
 
   // Handle form submission
-  const onSubmit: SubmitHandler<BikeFormInputs> = (data) => {
-    console.log(data);
-    setIsModalOpen(false);
+  const onSubmit: SubmitHandler<BikeFormInputs> = async (formData) => {
+    // Debugging: Check the formData object
+    console.log("Form Data:", formData);
+    console.log(formData);
+
+    const processedData = {
+      ...formData,
+      pricePerHour: Number(formData.pricePerHour),
+      cc: Number(formData.cc),
+      year: Number(formData.year),
+      isAvailable: formData.isAvailable === "true" ? true : false,
+    };
+
+    try {
+      if (currentBike) {
+        const dataForUpdate = {
+          id: currentBike._id,
+          bike: processedData,
+        };
+        await updateBike(dataForUpdate).unwrap();
+        notification.success({
+          message: "Success",
+          description: "The bike has been successfully updated.",
+          placement: "topRight",
+          duration: 3,
+        });
+      } else {
+        await createBike(processedData).unwrap();
+        notification.success({
+          message: "Success",
+          description: "The bike has been successfully created.",
+          placement: "topRight",
+          duration: 3,
+        });
+      }
+      setIsModalOpen(false);
+    } catch (error:any) {
+      console.log("Submission Error:", error);
+      notification.error({
+        message: "Error",
+        description: `${error?.data?.message}`,
+        placement: "topRight",
+        duration: 3,
+      });
+    }
   };
 
   // Handle bike deletion
@@ -87,20 +139,31 @@ const BikeManagement: React.FC = () => {
       content: `Bike: ${bike.name}`,
       okText: "Yes",
       cancelText: "No",
-      onOk: () => handleDelete(bike._id),
+      onOk: () => handleDelete(bike?._id),
     });
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleDelete = (bikeId: string) => {
-    console.log(bikeId);
+  const handleDelete = async(bikeId: string) => {
+   try{
+    await deleteBike(bikeId).unwrap()
     notification.success({
       message: "Success",
       description: "The bike has been successfully deleted.",
       placement: "topRight",
       duration: 3,
     });
+   }
+   catch (err: any) {
+    notification.error({
+      message: "Error",
+      description: `${err?.data?.message}`,
+      placement: "topRight",
+      duration: 3,
+    });
+  }
   };
+  // handle create
 
   // Columns for the Ant Design table
   const columns = [
@@ -117,8 +180,8 @@ const BikeManagement: React.FC = () => {
     },
     {
       title: "Price",
-      dataIndex: "price",
-      key: "price",
+      dataIndex: "pricePerHour",
+      key: "pricePerHour",
     },
     {
       title: "CC",
@@ -142,15 +205,16 @@ const BikeManagement: React.FC = () => {
     },
     {
       title: "Availability",
-      dataIndex: "availability",
-      key: "availability",
+      dataIndex: "isAvailable",
+      key: "isAvailable",
+      render: (isAvailable: boolean) =>
+        isAvailable ? "Available" : "Unavailable",
     },
     {
       title: "Actions",
       key: "actions",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       render: (_text: any, record: Bike) => (
-        
         <div className="space-x-2">
           <Button
             type="primary"
@@ -173,32 +237,34 @@ const BikeManagement: React.FC = () => {
       ),
     },
   ];
-
+  if (isLoading || isFetching) {
+    return <Spin className="custom-spin fixed top-[50%] left-[50%]" />;
+  }
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg">
       <div className="flex justify-between md:flex-row flex-col items-center mb-4">
-        <h1 className="md:text-2xl text-xl font-bold text-center text-gray-800">Bike <span className="text-red-500">Management</span></h1>
+        <h1 className="md:text-2xl text-xl font-bold text-center text-gray-800">
+          Bike <span className="text-red-500">Management</span>
+        </h1>
         <Button
           type="primary"
           icon={<PlusOutlined />}
           className="bg-red-500 lg:my-auto my-5  hover:bg-red-600"
-          onClick={() => {
-            reset(), openModal(null);
-          }}
+          onClick={() => openModal(null)} // Pass null to openModal for creating a new bike
         >
           Create New Bike
         </Button>
       </div>
 
-   <div className="overflow-x-auto">
-   <Table columns={columns} dataSource={bikes} pagination={undefined}/>
-   </div>
+      <div className="overflow-x-auto">
+        <Table columns={columns} dataSource={bikes} pagination={undefined} />
+      </div>
 
       <Modal
         title={currentBike ? "Edit Bike" : "Create Bike"}
-        visible={isModalOpen}
+        open={isModalOpen}
         onCancel={() => {
-          setIsModalOpen(false), reset();
+          setIsModalOpen(false);
         }}
         footer={null}
       >
@@ -212,6 +278,17 @@ const BikeManagement: React.FC = () => {
             />
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Image</label>
+            <input
+              type="text"
+              {...register("image", { required: "Bike image is required" })}
+              className="w-full p-2 border rounded"
+            />
+            {errors.image && (
+              <p className="text-red-500 text-sm">{errors.image.message}</p>
             )}
           </div>
           <div className="mb-4">
@@ -229,14 +306,18 @@ const BikeManagement: React.FC = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Price</label>
+            <label className="block text-gray-700">pricePerHour</label>
             <input
               type="number"
-              {...register("price", { required: "Price is required" })}
+              {...register("pricePerHour", {
+                required: "pricePerHour is required",
+              })}
               className="w-full p-2 border rounded"
             />
-            {errors.price && (
-              <p className="text-red-500 text-sm">{errors.price.message}</p>
+            {errors.pricePerHour && (
+              <p className="text-red-500 text-sm">
+                {errors.pricePerHour.message}
+              </p>
             )}
           </div>
           <div className="mb-4">
@@ -286,18 +367,18 @@ const BikeManagement: React.FC = () => {
           <div className="mb-4">
             <label className="block text-gray-700">Availability</label>
             <select
-              {...register("availability", {
+              {...register("isAvailable", {
                 required: "Availability is required",
               })}
               className="w-full p-2 border rounded"
             >
               <option value="">Select availability</option>
-              <option value="Available">Available</option>
-              <option value="Unavailable">Unavailable</option>
+              <option value="true">Available</option>
+              <option value="false">Unavailable</option>
             </select>
-            {errors.availability && (
+            {errors.isAvailable && (
               <p className="text-red-500 text-sm">
-                {errors.availability.message}
+                {errors.isAvailable.message}
               </p>
             )}
           </div>
