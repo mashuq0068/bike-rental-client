@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { IoIosCall } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     setTimeout(() => {
@@ -38,7 +40,7 @@ const HeroSection = () => {
             Search
           </button>
         </div>
-        <button className="bg-blue-500 flex gap-2 items-center hover:bg-blue-600 text-white font-bold py-3 px-12 rounded-full transition-all duration-300 text-lg">
+        <button onClick={() => navigate('/contact-us')} className="bg-blue-500 flex gap-2 items-center hover:bg-blue-600 text-white font-bold py-3 px-12 rounded-full transition-all duration-300 text-lg">
           <IoIosCall />
           Call Us For Booking
         </button>

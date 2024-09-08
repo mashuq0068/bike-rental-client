@@ -1,7 +1,14 @@
-import { notification } from "antd";
-import  { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { notification, Spin } from "antd";
+import React, { useEffect, useState } from "react";
 import { SmileOutlined } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+} from "../../../redux/features/user/userApi";
+import { openErrorNotification } from "../../../utils/errorNotification";
+import { openSuccessNotification } from "../../../utils/successNotification";
 
 interface UserProfile {
   name: string;
@@ -9,7 +16,6 @@ interface UserProfile {
   phone: string;
   address: string;
 }
-
 const defaultProfile: UserProfile = {
   name: "John Doe",
   email: "johndoe@example.com",
@@ -17,57 +23,75 @@ const defaultProfile: UserProfile = {
   address: "123 Main St, City, Country",
 };
 
-const UserProfile = () => {
-  const [profile, setProfile] = useState<UserProfile>(defaultProfile);
+const UserProfile: React.FC = () => {
+  const { data, isLoading, isFetching  } = useGetProfileQuery(undefined);
+  const [updateProfile] = useUpdateProfileMutation();
+  console.log(data);
+  const [profileData, setProfileData] = useState<UserProfile | undefined>(
+    undefined
+  );
 
+  const { name, email, phone, address } = profileData ?? defaultProfile;
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<UserProfile>({
-    defaultValues: profile,
+    defaultValues: profileData,
   });
 
-  const onSubmit = (data: UserProfile) => {
-    setProfile(data);
-    // Here you would normally send the updated data to your backend
-    console.log("Updated Profile:", data);
-  };
-  const openNotification = () => {
-    notification.open({
-      message: `Welcome back, ${profile.name}!`,
-      description: "We hope you have a great experience updating your profile.",
-      icon: <SmileOutlined style={{ color: "#52c41a" }} />,
-      style: {
-        backgroundColor: "#f0f9ff",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-        color: "#333",
-      },
-      placement: "topRight",
-    });
-  };
-
-  // Show the notification when the component is mounted
   useEffect(() => {
-    let isNotificationShown = false;
-
-    if (!isNotificationShown) {
+    if (data?.data) {
+      setProfileData(data.data);
       openNotification();
-      isNotificationShown = true;
+      reset(data.data); // Reset the form with fetched data
     }
-  }, []);
+  }, [data?.data, reset ]);
+
+  const onSubmit = async (formData: UserProfile) => {
+    // Here you would normally send the updated data to your backend
+    try {
+      await updateProfile(formData).unwrap();
+      openSuccessNotification("Your profile updated successfully");
+    
+      
+    } catch (err: any) {
+      openErrorNotification(`${err?.data?.message}`);
+    }
+  };
+
+  const openNotification = () => {
+    if(data?.data?.name){
+      notification.open({
+        message: `Welcome back, ${data?.data?.name}!`,
+        description: "We hope you have a great experience updating your profile.",
+        icon: <SmileOutlined style={{ color: "#52c41a" }} />,
+        style: {
+          backgroundColor: "#f0f9ff",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+          color: "#333",
+        },
+        placement: "topRight",
+      });
+    }
+   
+  };
+
+  if (isLoading || isFetching) {
+    return <Spin className="custom-spin fixed top-[50%] left-[50%]" />;
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      {/* Welcome Message */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800">
-          <span className="text-red-500">Welcome</span>, {profile.name}!
+          <span className="text-red-500">Welcome</span>, {name}
         </h1>
         <p className="text-gray-600">Update your profile information below.</p>
       </div>
 
-      {/* Profile Information */}
       <div className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Profile Details
@@ -75,24 +99,23 @@ const UserProfile = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-medium text-gray-800">Name</h3>
-            <p className="text-gray-600">{profile.name}</p>
+            <p className="text-gray-600">{name}</p>
           </div>
           <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-medium text-gray-800">Email</h3>
-            <p className="text-gray-600">{profile.email}</p>
+            <p className="text-gray-600">{email}</p>
           </div>
           <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-medium text-gray-800">Phone</h3>
-            <p className="text-gray-600">{profile.phone}</p>
+            <p className="text-gray-600">{phone}</p>
           </div>
           <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h3 className="text-lg font-medium text-gray-800">Address</h3>
-            <p className="text-gray-600">{profile.address}</p>
+            <p className="text-gray-600">{address}</p>
           </div>
         </div>
       </div>
 
-      {/* Update Profile Form */}
       <div>
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Update Profile

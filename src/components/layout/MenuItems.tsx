@@ -82,8 +82,8 @@ const MenuItems: React.FC = () => {
   const items = user?.role === "admin" ? adminItems : userItems;
   const defaultSelectedKey = items.find((item) =>
     location.pathname.startsWith(item.url || "")
-  )?.key;
-  console.log(defaultSelectedKey);
+  )?.key || false;
+
   const handleClick: MenuProps["onClick"] = (e) => {
     const clickedItem = items.find(
       (item) => item.key === e.key

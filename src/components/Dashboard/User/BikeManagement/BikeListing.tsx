@@ -1,39 +1,38 @@
-import  { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useGetBikesQuery } from "../../../../redux/features/bike/bikeApi";
+import Loader from "../../../Loader/Loader";
 
-const bikes = [
-  {
-    id: 1,
-    brand: "Yamaha",
-    model: "YZF-R3",
-    availability: "Available",
-    image: "https://tse3.mm.bing.net/th?id=OIP.XRcgqNmoqjQ-leet0vxZ6AHaEo&pid=Api&P=0&h=220",
-  },
-  {
-    id: 2,
-    brand: "Honda",
-    model: "CBR500R",
-    availability: "Rented",
-    image: "https://tse1.mm.bing.net/th?id=OIP.Eo_HL5wVV4Njb7aagf31KAHaEK&pid=Api&P=0&h=220",
-  },
-  // Add more bike data as needed
-];
 
 const BikeListing = () => {
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
-  const [selectedAvailability, setSelectedAvailability] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedModel, setSelectedModel] = useState<string>("");
+  const [selectedAvailability, setSelectedAvailability] = useState<string>("");
 
-//   const filteredBikes = bikes.filter(
-//     (bike) =>
-//       (selectedBrand === "" || bike.brand === selectedBrand) &&
-//       (selectedModel === "" || bike.model === selectedModel) &&
-//       (selectedAvailability === "" || bike.availability === selectedAvailability)
-//   );
+  const { data, isLoading } = useGetBikesQuery(undefined);
+ 
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  // Extract unique brands and models from the bike data
+  const uniqueBrands: string[] = Array.from(new Set(data?.data?.map((bike: any) => bike.brand)));
+  const uniqueModels: string[] = Array.from(new Set(data?.data?.map((bike: any) => bike.model)));
+
+  // Filter bikes based on selected options
+  const filteredBikes = data?.data?.filter((bike: any) =>
+    (selectedBrand === "" || bike.brand === selectedBrand) &&
+    (selectedModel === "" || bike.model === selectedModel) &&
+    (selectedAvailability === "" || (selectedAvailability === "Available" ? bike.isAvailable : !bike.isAvailable))
+  );
 
   return (
     <div className="min-h-screen container py-10 px-5">
-      <h1 className="text-4xl font-bold text-center mb-10"><span className="text-red-500">Bike</span> Listing</h1>
+      <h1 className="text-4xl font-bold text-center mb-10">
+        <span className="text-red-500">Bike</span> Listing
+      </h1>
 
       {/* Filter Section */}
       <div className="flex justify-center space-x-5 mb-10">
@@ -43,9 +42,11 @@ const BikeListing = () => {
           onChange={(e) => setSelectedBrand(e.target.value)}
         >
           <option value="">All Brands</option>
-          <option value="Yamaha">Yamaha</option>
-          <option value="Honda">Honda</option>
-          {/* Add more brand options */}
+          {uniqueBrands.map((brand: string) => (
+            <option key={brand} value={brand}>
+              {brand}
+            </option>
+          ))}
         </select>
 
         <select
@@ -54,9 +55,11 @@ const BikeListing = () => {
           onChange={(e) => setSelectedModel(e.target.value)}
         >
           <option value="">All Models</option>
-          <option value="YZF-R3">YZF-R3</option>
-          <option value="CBR500R">CBR500R</option>
-          {/* Add more model options */}
+          {uniqueModels.map((model: string) => (
+            <option key={model} value={model}>
+              {model}
+            </option>
+          ))}
         </select>
 
         <select
@@ -67,15 +70,14 @@ const BikeListing = () => {
           <option value="">All Status</option>
           <option value="Available">Available</option>
           <option value="Rented">Rented</option>
-          {/* Add more availability options */}
         </select>
       </div>
 
       {/* Bike Listing */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {bikes?.map((bike) => (
+        {filteredBikes?.map((bike: any) => (
           <div
-            key={bike.id}
+            key={bike._id}
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
           >
             <img
@@ -88,16 +90,15 @@ const BikeListing = () => {
               <p className="text-gray-700 mb-4">{bike.model}</p>
               <span
                 className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                  bike.availability === "Available"
+                  bike.isAvailable
                     ? "bg-green-100 text-green-700"
                     : "bg-red-100 text-red-700"
                 }`}
               >
-                {bike.availability}
+                {bike.isAvailable ? "Available" : "Not Available"}
               </span>
               <Link
-              to={`/dashboard/user/bike-details/${bike.id}`}
-                onClick={() => console.log("View Details for bike", bike.id)}
+                to={`/dashboard/user/bike-details/${bike._id}`}
                 className="block w-full mt-5 text-center py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-300"
               >
                 View Details

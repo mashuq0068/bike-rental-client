@@ -10,7 +10,7 @@ const bookingAPi = baseApi.injectEndpoints({
           body: rental,
         };
       },
-      invalidatesTags:["booking"]
+      invalidatesTags:["booking" , "bike"]
     }),
     getBookings: builder.query({
       query: () => {
@@ -21,6 +21,15 @@ const bookingAPi = baseApi.injectEndpoints({
       },
       providesTags : ["booking"]
     }),
+    getOwnBookings: builder.query({
+      query: () => {
+        return {
+          url: "/rentals/me",
+          method: "GET",
+        };
+      },
+      providesTags : ["booking" , "bike"]
+    }),
     returnBike: builder.mutation({
       query: (data) => {
         return {
@@ -29,7 +38,18 @@ const bookingAPi = baseApi.injectEndpoints({
           body: data?.rental,
         };
       },
-      invalidatesTags:['booking']
+      invalidatesTags:['booking' , 'bike']
+    }),
+    updateSingleBooking: builder.mutation({
+      query: (data) => {
+        console.log(data);
+        return {
+          url: `/rentals/${data?.id}`,
+          method: "PATCH",
+          body: data?.rental,
+        };
+      },
+      invalidatesTags:['booking' , 'bike']
     }),
   }),
 });
@@ -38,4 +58,6 @@ export const {
   useCreateBookingMutation,
   useGetBookingsQuery,
   useReturnBikeMutation,
+  useGetOwnBookingsQuery,
+  useUpdateSingleBookingMutation
 } = bookingAPi;

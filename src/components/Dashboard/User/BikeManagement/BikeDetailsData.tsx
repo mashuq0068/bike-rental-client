@@ -1,22 +1,29 @@
 import { useState } from "react";
 import { Modal, Input, DatePicker } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetSingleBikeQuery } from "../../../../redux/features/bike/bikeApi";
+import Loader from "../../../Loader/Loader";
 
 const BikeDetailData = () => {
+  const { id } = useParams();
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const { data, isLoading } = useGetSingleBikeQuery(id);
+  const navigate = useNavigate();
+  const [startTime, setStartTime] = useState<Date | null | string>(null);
+
+  const handleStartTimeChange = (value: Date | null | string) => {
+    const decodedDateStr = decodeURIComponent(value as string);
+
+    // Step 2: Parse the date string into a Date object
+    const dateObj = new Date(decodedDateStr);
+
+    // Step 3: Convert to ISO 8601 format (UTC)
+    const isoDateStr = dateObj.toISOString();
+    setStartTime(isoDateStr);
+  };
 
   // Example bike details (replace with real data)
-  const bike = {
-    id: 1,
-    brand: "Yamaha",
-    model: "YZF-R3",
-    description:
-      "The Yamaha YZF-R3 is an entry-level sportbike with a powerful 321cc engine, sleek design, and excellent handling, making it perfect for both city and highway riding.",
-    price: "$5,299",
-    cc: "321cc",
-    year: "2023",
-    availability: "Available",
-    image: "https://tse3.mm.bing.net/th?id=OIP.XRcgqNmoqjQ-leet0vxZ6AHaEo&pid=Api&P=0&h=220",
-  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -26,50 +33,58 @@ const BikeDetailData = () => {
     setIsModalVisible(false);
   };
 
-  const handlePayment = () => {
+  const handlePayment = (id: string) => {
     // Redirect to payment page or handle payment logic
-    console.log("Redirecting to payment...");
+    navigate(`/dashboard/user/advance-payment/${id}/${startTime}`);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-5">
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
         <img
-          src={bike.image}
-          alt={bike.model}
+          src={data?.data?.image}
+          alt={data?.data?.model}
           className="w-full h-64 object-cover"
         />
         <div className="p-8">
-          <h1 className="text-4xl font-bold mb-4">{bike.brand} {bike.model}</h1>
-          <p className="text-gray-700 mb-6">{bike.description}</p>
+          <h1 className="text-4xl font-bold mb-4">
+            {data?.data?.brand} {data?.data?.model}
+          </h1>
+          <p className="text-gray-700 mb-6">{data?.data?.description}</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <div>
               <h2 className="text-xl font-semibold">Price</h2>
-              <p className="text-gray-700">{bike.price}</p>
+              <p className="text-gray-700">
+                {data?.data?.pricePerHour}(per hour)
+              </p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Engine Capacity (CC)</h2>
-              <p className="text-gray-700">{bike.cc}</p>
+              <p className="text-gray-700">{data?.data?.cc}</p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Year</h2>
-              <p className="text-gray-700">{bike.year}</p>
+              <p className="text-gray-700">{data?.data?.year}</p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Brand</h2>
-              <p className="text-gray-700">{bike.brand}</p>
+              <p className="text-gray-700">{data?.data?.brand}</p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Availability</h2>
               <span
                 className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                  bike.availability === "Available"
+                  data?.data?.isAvailable === true
                     ? "bg-green-100 text-green-700"
                     : "bg-red-100 text-red-700"
                 }`}
               >
-                {bike.availability}
+                {data?.data?.isAvailable ? "available" : "not-available"}
               </span>
             </div>
           </div>
@@ -95,6 +110,7 @@ const BikeDetailData = () => {
                   Start Time
                 </label>
                 <DatePicker
+                  onChange={handleStartTimeChange}
                   showTime
                   placeholder="Select Start Time"
                   className="w-full"
@@ -106,12 +122,21 @@ const BikeDetailData = () => {
                 </label>
                 <Input value="TK 100" disabled />
               </div>
-              <button
-                onClick={handlePayment}
-                className="w-full py-3 bg-red-500 text-white rounded-lg text-lg font-semibold hover:bg-red-600 transition-colors duration-300"
-              >
-                Pay Now
-              </button>
+              {startTime ? (
+                <button
+                  onClick={() => handlePayment(data?.data?._id)}
+                  className="w-full py-3 bg-red-500 text-white rounded-lg text-lg font-semibold hover:bg-red-600 transition-colors duration-300"
+                >
+                  Pay Now
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="w-full py-3 bg-red-300 text-white rounded-lg text-lg font-semibold  transition-colors duration-300"
+                >
+                  Pay Now
+                </button>
+              )}
             </div>
           </Modal>
         </div>

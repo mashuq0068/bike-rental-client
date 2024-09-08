@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal, notification, DatePicker, Form } from "antd";
 import "antd/dist/reset.css";
 import moment, { Moment } from "moment";
@@ -24,22 +22,17 @@ interface Rental {
 }
 
 const BikeReturnTable = () => {
-  // const [rentalList, setRentalList] = useState<Rental[]>(rentals);
   const [selectedRental, setSelectedRental] = useState<Rental | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
   const { data, isLoading } = useGetBookingsQuery(undefined);
-  console.log(data);
   const [returnBike] = useReturnBikeMutation();
 
-  // Open modal for Calculate Cost
   const openCalculateModal = (rental: Rental) => {
     setSelectedRental(rental);
-    setEndTime(null); // Reset end time when opening the modal
+    setEndTime(null);
   };
 
-  // Calculate cost and update status
   const calculateCost = async (rentalId: string, _endTime: string) => {
-    // Placeholder cost calculation logic
     const data = {
       id: rentalId,
       rental: {
@@ -48,7 +41,6 @@ const BikeReturnTable = () => {
     };
     try {
       const res = await returnBike(data).unwrap();
-      console.log(res);
       notification.success({
         message: "Success",
         description: "Bike calculation successfully done.",
@@ -62,31 +54,60 @@ const BikeReturnTable = () => {
 
   const handleDateChange = (date: Moment | null) => {
     if (date) {
-      setEndTime(date.format("YYYY-MM-DD HH:mm a"));
+      setEndTime(date.format("YYYY-MM-DD HH:mm"));
     }
   };
 
-  // Disable dates and times before the current time (Bangladesh time)
-  const disabledDate = (current: any) => {
-    return current && moment(current).isBefore(moment().startOf("day"));
+  // Disable dates and times before the current time
+  const disabledDate = (current: Moment | null) => {
+    if (!current) return false;
+    // Disable dates before today
+    return current.isBefore(moment().startOf("day"));
   };
 
   const disabledTime = () => {
-    const currentHour = moment().hour();
-    const currentMinute = moment().minute();
-
+    const currentMoment = moment();
     return {
-      disabledHours: () =>
-        Array.from({ length: 24 }, (_, i) => i).filter(
-          (hour) => hour < currentHour
-        ),
-      disabledMinutes: (hour: number) =>
-        hour === currentHour
-          ? Array.from({ length: 60 }, (_, i) => i).filter(
-              (minute) => minute < currentMinute
-            )
-          : [],
+      disabledHours: () => {
+        const hours = Array.from({ length: 24 }, (_, i) => i);
+        // Disable hours before current hour
+        return hours.filter((hour) => hour < currentMoment.hour());
+      },
+      disabledMinutes: (hour: number) => {
+        if (hour < moment().hour()) {
+          return Array.from({ length: 60 }, (_, i) => i); // Disable all minutes if hour is before current hour
+        }
+        const currentMinute = moment().minute();
+        // Disable minutes before current minute if within the same hour
+        return Array.from({ length: 60 }, (_, i) => i).filter(
+          (minute) => minute < currentMinute
+        );
+      },
     };
+  };
+
+  // Additional logic to handle time selection after the rental start time
+  const disabledDateAndTime = (current: Moment | null) => {
+    if (!current || !selectedRental) return false;
+    const rentalStartTime = moment(selectedRental.startTime);
+    return (
+      current.isBefore(moment().startOf("day")) ||
+      current.isBefore(rentalStartTime)
+    );
+  };
+
+  const handleEndTimeChange = (date: Moment | null) => {
+    if (date && selectedRental) {
+      const rentalStartTime = moment(selectedRental.startTime);
+      if (date.isBefore(rentalStartTime)) {
+        notification.error({
+          message: "Invalid Date",
+          description: "Return time cannot be before the rental start time.",
+        });
+        return;
+      }
+      setEndTime(date.format("YYYY-MM-DD HH:mm"));
+    }
   };
 
   if (isLoading) {
@@ -141,38 +162,35 @@ const BikeReturnTable = () => {
                   {rental.returnTime ? (
                     rental?.returnTime
                   ) : (
-                    <p className="px-3 py-2   text-red-500 rounded-lg">
-                      Pending
-                    </p>
+                    <p className="px-3 py-2 text-red-500 rounded-lg">Pending</p>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {rental.totalCost ? (
                     `$${rental.totalCost}`
                   ) : (
-                    <p className="px-3 py-2  text-red-500 rounded-lg">
-                      Pending
-                    </p>
+                    <p className="px-3 py-2 text-red-500 rounded-lg">Pending</p>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {rental.isReturned ? (
-                    <p className="px-3 py-2 text-green-500   rounded-lg">
+                    <p className="px-3 py-2 text-green-500 rounded-lg">
                       Returned
                     </p>
                   ) : (
-                    <p className="px-3 py-2 text-red-500   rounded-lg">
+                    <p className="px-3 py-2 text-red-500 rounded-lg">
                       Not Returned
                     </p>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   {rental?.isReturned ? (
-                    <p className="px-3 py-2 text-green-500  rounded-lg">
+                    <p className="px-3 py-2 text-green-500 rounded-lg">
                       Calculated
                     </p>
                   ) : (
                     <Button
+                      onClick={() => openCalculateModal(rental)}
                       className="bg-red-500 text-white hover:bg-red-600"
                       type="primary"
                       htmlType="submit"
@@ -222,29 +240,15 @@ const BikeReturnTable = () => {
                 format="YYYY-MM-DD h:mm a"
                 disabledDate={disabledDate}
                 disabledTime={disabledTime}
-                onChange={handleDateChange}
+                onChange={handleEndTimeChange}
                 value={endTime ? moment(endTime) : null}
               />
             </Form.Item>
-            <div className="flex justify-end">
-              <Button
-                className="mr-2"
-                onClick={() => {
-                  setSelectedRental(null);
-                  setEndTime(null); // Reset end time when canceling
-                }}
-              >
-                Cancel
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="w-full">
+                Submit
               </Button>
-
-              <Button
-                className="bg-red-500 text-white hover:bg-red-600"
-                type="primary"
-                htmlType="submit"
-              >
-                Calculate
-              </Button>
-            </div>
+            </Form.Item>
           </Form>
         )}
       </Modal>

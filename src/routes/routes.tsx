@@ -17,6 +17,8 @@ import BikeDetails from "../pages/Dashboard/User/BikeDetails";
 import MyRental from "../pages/Dashboard/User/MyRental";
 import ContactUs from "../components/Home/ContactUs";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
+import AdvancePayment from "../pages/Dashboard/User/AdvancePayment";
+import Payment from "../pages/Dashboard/User/Payment";
 
 const router = createBrowserRouter([
   {
@@ -119,6 +121,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <MyRental />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/dashboard/user/advance-payment/:id/:startTime",
+        element: (
+          <ProtectedRoute>
+            <AdvancePayment />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/dashboard/user/payment/:id",
+        element: (
+          <ProtectedRoute>
+            <Payment />
           </ProtectedRoute>
         ),
       },
