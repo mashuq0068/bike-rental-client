@@ -82,10 +82,23 @@ Here are the key scripts available in this project:
 - **`build`**: Compiles TypeScript and builds the project using Vite.
 - **`lint`**: Runs ESLint to check for code quality.
 - **`preview`**: Previews the production build.
-
 ## Folder Structure
 
-bike-rental-frontend/ ├── public/ # Static assets ├── src/ │ ├── assets/ # Images, fonts, etc. │ ├── components/ # Reusable UI components │ ├── hooks/ # Custom React hooks │ ├── pages/ # Application pages │ ├── store/ # Redux store and slices │ ├── styles/ # Global styles and Tailwind setup │ └── utils/ # Utility functions ├── .eslintrc.json # ESLint configuration ├── tailwind.config.js # Tailwind CSS configuration ├── tsconfig.json # TypeScript configuration ├── vite.config.ts # Vite configuration └── package.json # e
+bike-rental-frontend/
+├── public/                # Static assets
+├── src/
+│   ├── assets/            # Images, fonts, etc.
+│   ├── components/        # Reusable UI components
+│   ├── hooks/             # Custom React hooks
+│   ├── pages/             # Application pages
+│   ├── store/             # Redux store and slices
+│   ├── styles/            # Global styles and Tailwind setup
+│   └── utils/             # Utility functions
+├── .eslintrc.json         # ESLint configuration
+├── tailwind.config.js     # Tailwind CSS configuration
+├── tsconfig.json          # TypeScript configuration
+├── vite.config.ts         # Vite configuration
+└── package.json           # Project metadata
 
 
 ## Project Live Link
