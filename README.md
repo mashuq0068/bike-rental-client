@@ -92,8 +92,8 @@ bike-rental-frontend/
 │   ├── components/        # Reusable UI components
 │   ├── hooks/             # Custom React hooks
 │   ├── pages/             # Application pages
-│   ├── store/             # Redux store and slices
-│   ├── styles/            # Global styles and Tailwind setup
+│   ├── redux/             # Redux store and slices
+│   ├── routes/            # All routes implemented here
 │   └── utils/             # Utility functions
 ├── .eslintrc.json         # ESLint configuration
 ├── tailwind.config.js     # Tailwind CSS configuration
