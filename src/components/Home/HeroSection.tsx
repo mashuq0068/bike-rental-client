@@ -1,16 +1,27 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { IoIosCall } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSearchTerm } from "../../redux/features/search/searchSlice";
 
 const HeroSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const navigate = useNavigate()
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
       setIsExpanded(true);
     }, 500); // Delay to start the animation after 500ms
   }, []);
+
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(setSearchTerm(localSearchTerm));
+    // Perform search operation, if any
+  };
+
   return (
     <section
       className="relative bg-cover bg-center h-screen text-white"
@@ -27,10 +38,15 @@ const HeroSection = () => {
         <p className="text-lg md:text-2xl lg:text-3xl max-w-2xl text-center mb-8">
           Find the perfect bike for your journey. Rent now and hit the road!
         </p>
-        <div className="flex  items-center justify-center flex-col md:gap-0 gap-3  md:flex-row md:w-[70%] w-[90%]  lg:w-[30%]  space-y-4 sm:space-y-0 sm:space-x-3 mb-8">
+        <form
+          onSubmit={handleSearch}
+          className="flex  items-center justify-center flex-col md:gap-0 gap-3  md:flex-row md:w-[70%] w-[90%]  lg:w-[30%]  space-y-4 sm:space-y-0 sm:space-x-3 mb-8"
+        >
           <input
             type="text"
-            placeholder="Search bike availability..."
+            value={localSearchTerm}
+            onChange={(e) => setLocalSearchTerm(e.target.value)}
+            placeholder="Search bike availability by bike name ..."
             className={`transition-all duration-1000 ease-in-out ${
               isExpanded ? "w-full" : "w-0"
             } py-3 px-8 rounded-full bg-white text-black focus:outline-none`}
@@ -39,8 +55,11 @@ const HeroSection = () => {
           <button className="bg-red-500  hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300">
             Search
           </button>
-        </div>
-        <button onClick={() => navigate('/contact-us')} className="bg-blue-500 flex gap-2 items-center hover:bg-blue-600 text-white font-bold py-3 px-12 rounded-full transition-all duration-300 text-lg">
+        </form>
+        <button
+          onClick={() => navigate("/contact-us")}
+          className="bg-blue-500 flex gap-2 items-center hover:bg-blue-600 text-white font-bold py-3 px-12 rounded-full transition-all duration-300 text-lg"
+        >
           <IoIosCall />
           Call Us For Booking
         </button>

@@ -1,5 +1,5 @@
-import  { useState } from "react";
-import { Modal, Button, Input, Form } from "antd";
+import { useEffect, useState } from "react";
+import { Modal, Button, Input, Form, notification } from "antd";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -35,6 +35,12 @@ const CouponManagementTable = () => {
   ]);
   const [currentCoupon, setCurrentCoupon] = useState<Coupon | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    openWarningNotification(
+      "Warning",
+      "This page is under development. So you can't manage your coupons"
+    );
+  }, []);
 
   const {
     register,
@@ -42,7 +48,14 @@ const CouponManagementTable = () => {
     reset,
     formState: { errors },
   } = useForm<CouponFormInputs>();
-
+  const openWarningNotification = (message: string, description: string) => {
+    notification.warning({
+      message: message,
+      description: description,
+      placement: "topRight",
+      duration: 5, // Duration in seconds
+    });
+  };
   // Open modal for Create or Edit
   const openModal = (coupon: Coupon | null) => {
     setCurrentCoupon(coupon);
@@ -179,7 +192,9 @@ const CouponManagementTable = () => {
               })}
             />
             {errors.expiryDate && (
-              <p className="text-red-500 text-sm">{errors.expiryDate.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.expiryDate.message}
+              </p>
             )}
           </Form.Item>
           <div className="flex justify-end space-x-2">

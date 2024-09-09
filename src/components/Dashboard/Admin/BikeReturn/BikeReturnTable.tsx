@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { Button, Modal, notification, DatePicker, Form } from "antd";
 import "antd/dist/reset.css";
-import moment, { Moment } from "moment";
+import dayjs, { Dayjs } from "dayjs";
+import "moment-timezone";
 import {
   useGetBookingsQuery,
   useReturnBikeMutation,
 } from "../../../../redux/features/booking/bookingApi";
 import Loader from "../../../Loader/Loader";
 import { openErrorNotification } from "../../../../utils/errorNotification";
+import "dayjs/locale/en-gb";
+import moment from "moment-timezone";
 
 // Define the Rental interface
 interface Rental {
@@ -40,7 +45,7 @@ const BikeReturnTable = () => {
       },
     };
     try {
-      const res = await returnBike(data).unwrap();
+      await returnBike(data).unwrap();
       notification.success({
         message: "Success",
         description: "Bike calculation successfully done.",
@@ -52,21 +57,21 @@ const BikeReturnTable = () => {
     }
   };
 
-  const handleDateChange = (date: Moment | null) => {
-    if (date) {
-      setEndTime(date.format("YYYY-MM-DD HH:mm"));
-    }
-  };
+  // const handleDateChange = (date: Dayjs | null) => {
+  //   if (date) {
+  //     setEndTime(date.format("YYYY-MM-DD HH:mm"));
+  //   }
+  // };
 
   // Disable dates and times before the current time
-  const disabledDate = (current: Moment | null) => {
+  const disabledDate = (current: Dayjs | null) => {
     if (!current) return false;
     // Disable dates before today
-    return current.isBefore(moment().startOf("day"));
+    return current.isBefore(dayjs().startOf("day"));
   };
 
   const disabledTime = () => {
-    const currentMoment = moment();
+    const currentMoment = dayjs();
     return {
       disabledHours: () => {
         const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -74,10 +79,10 @@ const BikeReturnTable = () => {
         return hours.filter((hour) => hour < currentMoment.hour());
       },
       disabledMinutes: (hour: number) => {
-        if (hour < moment().hour()) {
+        if (hour < dayjs().hour()) {
           return Array.from({ length: 60 }, (_, i) => i); // Disable all minutes if hour is before current hour
         }
-        const currentMinute = moment().minute();
+        const currentMinute = dayjs().minute();
         // Disable minutes before current minute if within the same hour
         return Array.from({ length: 60 }, (_, i) => i).filter(
           (minute) => minute < currentMinute
@@ -87,18 +92,18 @@ const BikeReturnTable = () => {
   };
 
   // Additional logic to handle time selection after the rental start time
-  const disabledDateAndTime = (current: Moment | null) => {
-    if (!current || !selectedRental) return false;
-    const rentalStartTime = moment(selectedRental.startTime);
-    return (
-      current.isBefore(moment().startOf("day")) ||
-      current.isBefore(rentalStartTime)
-    );
-  };
+  // const disabledDateAndTime = (current: Dayjs | null) => {
+  //   if (!current || !selectedRental) return false;
+  //   const rentalStartTime = dayjs(selectedRental.startTime);
+  //   return (
+  //     current.isBefore(dayjs().startOf("day")) ||
+  //     current.isBefore(rentalStartTime)
+  //   );
+  // };
 
-  const handleEndTimeChange = (date: Moment | null) => {
+  const handleEndTimeChange = (date: Dayjs | null) => {
     if (date && selectedRental) {
-      const rentalStartTime = moment(selectedRental.startTime);
+      const rentalStartTime = dayjs(selectedRental.startTime);
       if (date.isBefore(rentalStartTime)) {
         notification.error({
           message: "Invalid Date",
@@ -156,11 +161,15 @@ const BikeReturnTable = () => {
                   {rental?.userId?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {rental.startTime}
+                  {moment(rental.startTime)
+                    .tz("Asia/Dhaka")
+                    .format("YYYY-MM-DD h:mm A")}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {rental.returnTime ? (
-                    rental?.returnTime
+                    moment(rental.returnTime)
+                      .tz("Asia/Dhaka")
+                      .format("YYYY-MM-DD h:mm A")
                   ) : (
                     <p className="px-3 py-2 text-red-500 rounded-lg">Pending</p>
                   )}
@@ -241,7 +250,7 @@ const BikeReturnTable = () => {
                 disabledDate={disabledDate}
                 disabledTime={disabledTime}
                 onChange={handleEndTimeChange}
-                value={endTime ? moment(endTime) : null}
+                value={endTime ? dayjs(endTime) : null}
               />
             </Form.Item>
             <Form.Item>

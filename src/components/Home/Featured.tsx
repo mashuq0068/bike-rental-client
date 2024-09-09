@@ -2,28 +2,35 @@
 import { useNavigate } from "react-router-dom";
 import { useGetBikesQuery } from "../../redux/features/bike/bikeApi";
 import Loader from "../Loader/Loader";
+import { useAppSelector } from "../../redux/hooks";
 
 const FeaturedSection = () => {
-  const { data, isLoading } = useGetBikesQuery(undefined);
+  const searchState = useAppSelector((state) => state.search);
+  const { data, isLoading } = useGetBikesQuery(searchState);
   const navigate = useNavigate();
+
   if (isLoading) {
     return <Loader />;
   }
+
+  // Filter the bikes to only include those that are available
+  const availableBikes = data?.data?.filter((bike: any) => bike.isAvailable);
+
   return (
     <section className="">
-      <div className=" mx-auto px-4">
+      <div className="mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
           Available <span className="text-red-500">bikes</span>
         </h2>
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          {data?.data?.slice(0, 8)?.map((bike: any) => (
+          {availableBikes?.slice(0, 8)?.map((bike: any) => (
             <div
               key={bike?.id}
               className="group relative bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-500 hover:scale-105"
             >
               <img
                 src={bike?.image}
-                alt={`${bike?.brand} bike?`}
+                alt={`${bike?.brand} bike`}
                 className="w-full h-56 object-cover"
               />
               <div className="p-6">
@@ -39,7 +46,6 @@ const FeaturedSection = () => {
                   View Detail
                 </button>
               </div>
-              {/* <div className="absolute inset-0 bg-gradient-to-t from-black opacity-50 group-hover:opacity-70 transition-opacity duration-500"></div> */}
             </div>
           ))}
         </div>

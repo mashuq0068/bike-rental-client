@@ -133,7 +133,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/user/payment/:id",
+        path: "/dashboard/user/payment/:id/:cost",
         element: (
           <ProtectedRoute>
             <Payment />

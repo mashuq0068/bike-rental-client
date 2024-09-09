@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { Card, Statistic, Button, Divider } from "antd";
+import { Card, Statistic, Button, Divider, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useUpdateSingleBookingMutation } from "../../../redux/features/booking/bookingApi";
 import { openErrorNotification } from "../../../utils/errorNotification";
 import { openSuccessNotification } from "../../../utils/successNotification";
 
 const Payment: React.FC = () => {
-  const [updatePaymentStatus] = useUpdateSingleBookingMutation();
-  const { id } = useParams();
+  const [updatePaymentStatus, { isLoading }] = useUpdateSingleBookingMutation();
+  const { id, cost } = useParams();
 
   const handlePayment = async () => {
     const data = {
@@ -51,7 +51,7 @@ const Payment: React.FC = () => {
                   Total Amount
                 </span>
               }
-              value={5000}
+              value={cost}
               precision={2}
               prefix="TK"
               valueStyle={{
@@ -66,7 +66,7 @@ const Payment: React.FC = () => {
                   Due Amount
                 </span>
               }
-              value={1500}
+              value={Number(cost) - 100}
               precision={2}
               prefix="TK"
               valueStyle={{
@@ -101,7 +101,7 @@ const Payment: React.FC = () => {
                   Advance Payment
                 </span>
               }
-              value={3500}
+              value={100}
               precision={2}
               prefix="TK"
               valueStyle={{
@@ -121,7 +121,7 @@ const Payment: React.FC = () => {
               className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 border-none text-white font-bold py-4 rounded-full transition-all duration-300"
               onClick={handlePayment}
             >
-              Pay Now
+              {isLoading ? <Spin className="custom-button-spin" /> : "Pay Now"}
             </Button>
           </div>
         </Card>

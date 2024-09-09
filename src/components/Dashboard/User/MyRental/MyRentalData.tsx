@@ -24,7 +24,7 @@ const MyRentalsData: React.FC = () => {
   console.log(data);
   console.log(data?.data);
   const handlePayment = (rental: Rental) => {
-    navigate(`/dashboard/user/payment/${rental?._id}`);
+    navigate(`/dashboard/user/payment/${rental?._id}/${rental?.totalCost}`);
   };
 
   const columns = [

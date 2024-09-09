@@ -1,10 +1,14 @@
-
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import { useAppSelector } from '../../redux/hooks';
+import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { openSuccessNotification } from "../../utils/successNotification";
 
 const ContactUs = () => {
-  const user = useAppSelector((state) => state.auth)
-  console.log("new user data => " , user);
+  const handleContactUs = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    openSuccessNotification(
+      "You successfully sent a message to us. We will reply to you soon."
+    );
+  };
+
   return (
     <section className="pb-16 pt-4 bg-gray-200">
       <div className="container mx-auto px-4">
@@ -17,7 +21,7 @@ const ContactUs = () => {
               <h3 className="text-2xl font-bold mb-6 text-gray-800">
                 Get in Touch
               </h3>
-              <form className="space-y-6">
+              <form onSubmit={handleContactUs} className="space-y-6">
                 <div>
                   <label
                     htmlFor="name"

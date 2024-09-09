@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Table, Button, Modal, notification, Spin } from "antd";
+import { Table, Button, Modal, notification } from "antd";
 import { ColumnsType } from "antd/es/table";
 import {
   useDeleteSingleUserMutation,
@@ -8,6 +8,7 @@ import {
   useUpdateSingleUserMutation,
 } from "../../../../redux/features/user/userApi";
 import { openErrorNotification } from "../../../../utils/errorNotification";
+import Loader from "../../../Loader/Loader";
 
 // import 'antd/dist/antd.css'; // Import Ant Design styles
 
@@ -119,7 +120,7 @@ const UserManagementTable = () => {
     },
   ];
   if (isLoading) {
-    return <Spin className="custom-spin" />;
+    return <Loader/>;
   }
 
   return (
