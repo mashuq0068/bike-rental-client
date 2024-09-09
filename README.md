@@ -84,6 +84,7 @@ Here are the key scripts available in this project:
 - **`preview`**: Previews the production build.
 ## Folder Structure
 
+```
 bike-rental-frontend/
 ├── public/                # Static assets
 ├── src/
@@ -100,6 +101,7 @@ bike-rental-frontend/
 ├── vite.config.ts         # Vite configuration
 └── package.json           # Project metadata
 
+```
 
 ## Project Live Link
 
