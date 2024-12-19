@@ -8,7 +8,9 @@ const MainLayout = () => {
       <div className="sticky z-50 top-0">
         <Navbar />
       </div>
+      <div className="bg-white">
       <Outlet />
+      </div>
       <div className="bg-white pt-16">
       <Footer />
       </div>

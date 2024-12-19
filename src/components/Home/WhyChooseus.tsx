@@ -1,43 +1,60 @@
-
-import { FaDollarSign, FaMotorcycle, FaHeadset } from 'react-icons/fa';
+import Aos from "aos";
+import React, { useEffect } from "react";
 
 const WhyChooseUs = () => {
-  const benefits = [
+  useEffect(() => {
+    Aos.init();
+  }, []);
+
+  // Bike data array
+  const bikes = [
     {
       id: 1,
-      icon: <FaDollarSign className="text-4xl text-red-500" />,
-      title: 'Best Prices',
-      description: 'We offer the most competitive prices in the market for all our bikes.',
+      name: "Mountain",
+      imageUrl:
+        "https://tse4.mm.bing.net/th?id=OIP.iL_bok76nXuQ8gLh0He9rgHaE8&pid=Api&P=0&h=220",
     },
     {
       id: 2,
-      icon: <FaMotorcycle className="text-4xl text-red-500" />,
-      title: 'Wide Selection',
-      description: 'Choose from a wide range of top-quality bikes to suit your needs.',
+      name: "Urban",
+      imageUrl:
+        "https://tse4.mm.bing.net/th?id=OIP.5_0T8pMWwZkxx-jXMhgGyAHaDt&pid=Api&P=0&h=220",
     },
     {
       id: 3,
-      icon: <FaHeadset className="text-4xl text-red-500" />,
-      title: 'Excellent Service',
-      description: 'Our customer service team is here to help you 24/7 with any inquiries.',
+      name: "Road",
+      imageUrl:
+        "https://tse3.mm.bing.net/th?id=OIP.QSfiUGqfgWLpMXuI_kTbpgAAAA&pid=Api&P=0&h=220",
     },
   ];
 
   return (
     <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
-          Why <span className="text-red-500">Choose Us</span>
-        </h2>
-        <div className="grid gap-12 md:grid-cols-2 mb-8 lg:grid-cols-3">
-          {benefits.map((benefit) => (
+      <div className="container mx-auto text-center">
+        {/* Title Section */}
+        <h2 className="text-4xl font-extrabold text-gray-900">CHOOSE YOUR BIKE</h2>
+        <p className="text-gray-600 mt-4">
+          Lorem ipsum dolor sit amet, consectetur sadipscing elitr, sed diam nonumy eirmod.
+        </p>
+
+        {/* Bike Cards */}
+        <div className="grid md:grid-cols-3 gap-8 mt-12">
+          {bikes.map((bike) => (
             <div
-              key={benefit.id}
-              className="flex flex-col items-center text-center p-8 bg-gray-100 rounded-lg shadow-lg hover:bg-gray-200 transition-all duration-300"
+              key={bike.id}
+              data-aos="zoom-in"
+              data-aos-duration="1500"
+              className="relative group"
             >
-              <div className="mb-6">{benefit.icon}</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">{benefit.title}</h3>
-              <p className="text-gray-600">{benefit.description}</p>
+              <img
+                src={bike.imageUrl}
+                alt={bike.name}
+                className="w-full h-72 object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"></div>
+              <h3 className="absolute bottom-4 left-4 bg-black/60 px-3 py-2 rounded-md text-white text-lg font-medium">
+                {bike.name}
+              </h3>
             </div>
           ))}
         </div>

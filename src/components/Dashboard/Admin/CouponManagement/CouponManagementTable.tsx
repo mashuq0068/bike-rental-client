@@ -130,7 +130,7 @@ const CouponManagementTable = () => {
           </thead>
           <tbody>
             {coupons.map((coupon) => (
-              <tr key={coupon.id} className="hover:bg-gray-100">
+              <tr key={coupon.id} className="hover:">
                 <td className="py-2 px-4 border-b">{coupon.code}</td>
                 <td className="py-2 px-4 border-b">{coupon.discount}</td>
                 <td className="py-2 px-4 border-b">{coupon.expiryDate}</td>

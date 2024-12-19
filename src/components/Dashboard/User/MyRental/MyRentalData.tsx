@@ -74,7 +74,7 @@ const MyRentalsData: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-5">
+    <div className="min-h-screen  py-10 px-5">
       <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-4xl font-bold mb-8">My Rentals</h1>
         <Tabs

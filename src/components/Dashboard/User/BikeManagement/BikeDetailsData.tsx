@@ -43,7 +43,7 @@ const BikeDetailData = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-5">
+    <div className="min-h-screen  py-10 px-5">
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
         <img
           src={data?.data?.image}

@@ -56,7 +56,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center  ">
       <div className="container">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden mx-auto p-4 mt-8  w-full https://i.ibb.co/rMDhzg2/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-passwo.jpg flex">
           {/* Left Side Image */}

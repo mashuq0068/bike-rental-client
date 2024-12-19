@@ -27,7 +27,7 @@ const teamMembers = [
 
 const AboutUsSection = () => {
   return (
-    <div className="bg-gray-100 py-16">
+    <div className=" py-16">
       <div className="container mx-auto px-4">
         {/* Mission Statement Section */}
         <section className="text-center mb-16">

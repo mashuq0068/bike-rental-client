@@ -7,11 +7,11 @@ import WhyChooseUs from "../../components/Home/WhyChooseus";
 
 const Home = () => {
   return (
-    <div className="lg:space-y-28 space-y-16 bg-gray-200">
+    <div className="lg:space-y-28 space-y-16">
       <HeroSection />
-      <section className="container">
+      {/* <section className="container">
         <Featured />
-      </section>
+      </section> */}
       <section>
         <WhyChooseUs />
       </section>
