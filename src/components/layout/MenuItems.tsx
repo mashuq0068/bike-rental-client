@@ -97,7 +97,7 @@ const MenuItems: React.FC = () => {
     <div className="menu-bar z-50 fixed top-0 w-full lg:w-auto left-0 ">
       {/* Logo and Menu Icon Section */}
       <div className="flex items-center justify-between w-full lg:w-64 h-full bg-[#ebe9e9] p-5">
-        <div className="text-xl xl:text-2xl text-gray-800 font-extrabold">
+        <div className="text-xl xl:text-2xl text-gray-800 font-bold">
           <span className="text-red-500">Bike</span>Ease
         </div>
 

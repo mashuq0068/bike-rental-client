@@ -8,12 +8,12 @@ import store, { persistor } from "./redux/store.ts";
 import { PersistGate } from "redux-persist/es/integration/react";
 import "aos/dist/aos.css";
 
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <RouterProvider router={router} />
+        <RouterProvider router={router}>
+        </RouterProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>

@@ -10,93 +10,57 @@ const ContactUs = () => {
   };
 
   return (
-    <section className="pb-16 pt-4 bg-gray-200">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
-          <span className="text-red-500">Contact</span> Us
+    <section className="bg-gray-100">
+    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
+      <div className="max-w-2xl lg:max-w-4xl mx-auto text-center">
+        <h2 className="text-4xl uppercase font-bold text-gray-900">
+          Visit Our Location
         </h2>
-        <div className="flex flex-wrap justify-center gap-16">
-          <div className="w-full md:w-1/2 lg:w-1/3">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Get in Touch
-              </h3>
-              <form onSubmit={handleContactUs} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:outline-red-500"
-                    placeholder="Your Name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="mt-1 block w-full focus:outline-red-500 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 "
-                    placeholder="Your Email"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:outline-red-500"
-                    placeholder="Your Message"
-                    rows={5}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-red-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-600 transition-all duration-300"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
+        <p className="mt-4 text-lg text-gray-500">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+      </div>
+      <div className="mt-16 lg:mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="rounded-lg overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11672.945750644447!2d-122.42107853750231!3d37.7730507907087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858070cc2fbd55%3A0xa71491d736f62d5c!2sGolden%20Gate%20Bridge!5e0!3m2!1sen!2sus!4v1619524992238!5m2!1sen!2sus"
+              width="100%"
+              height="480"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+            ></iframe>
           </div>
-          <div className="w-full md:w-1/2 lg:w-1/3">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Contact Information
-              </h3>
-              <div className="space-y-6 text-gray-700">
-                <div className="flex items-center">
-                  <FaMapMarkerAlt className="text-red-500 text-2xl mr-4" />
-                  <span>12/17 Bonani, Uttara, Dhaka</span>
-                </div>
-                <div className="flex items-center">
-                  <FaPhone className="text-red-500 text-2xl mr-4" />
-                  <span>(+880) 195403-23934</span>
-                </div>
-                <div className="flex items-center">
-                  <FaEnvelope className="text-red-500 text-2xl mr-4" />
-                  <span>bikeEease123@gmail.com</span>
-                </div>
+          <div>
+            <div className="max-w-full mx-auto rounded-lg overflow-hidden">
+              <div className="px-6 py-4">
+                <h3 className="text-lg font-medium text-gray-900">
+                  Our Address
+                </h3>
+                <p className="mt-1 text-gray-600">
+                  123 Main St, San Francisco, CA 94105
+                </p>
+              </div>
+              <div className="border-t border-gray-200 px-6 py-4">
+                <h3 className="text-lg font-medium text-gray-900">Hours</h3>
+                <p className="mt-1 text-gray-600">
+                  Monday - Friday: 9am - 5pm
+                </p>
+                <p className="mt-1 text-gray-600">Saturday: 10am - 4pm</p>
+                <p className="mt-1 text-gray-600">Sunday: Closed</p>
+              </div>
+              <div className="border-t border-gray-200 px-6 py-4">
+                <h3 className="text-lg font-medium text-gray-900">Contact</h3>
+                <p className="mt-1 text-gray-600">Email: info@example.com</p>
+                <p className="mt-1 text-gray-600">Phone: +1 23494 34993</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 };
 

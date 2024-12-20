@@ -13,12 +13,13 @@ import BikeReturn from "../pages/Dashboard/Admin/BikeReturn";
 import CouponManagement from "../pages/Dashboard/Admin/CouponManagement";
 import UserProfile from "../pages/Dashboard/User/UserProfile";
 import UserBikeManagement from "../pages/Dashboard/User/UserBikeMangement";
-import BikeDetails from "../pages/Dashboard/User/BikeDetails";
+import BikeDetails from "../pages/Bikes/BikeDetails";
 import MyRental from "../pages/Dashboard/User/MyRental";
 import ContactUs from "../components/Home/ContactUs";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import AdvancePayment from "../pages/Dashboard/User/AdvancePayment";
 import Payment from "../pages/Dashboard/User/Payment";
+import Bikes from "../pages/Bikes/Bikes";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,22 @@ const router = createBrowserRouter([
       {
         path: "contact-us",
         element: <ContactUs />,
+      },
+      {
+        path: "/bikes",
+        element: (
+          <ProtectedRoute>
+            <Bikes />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/bikes/:id",
+        element: (
+          <ProtectedRoute>
+            <BikeDetails />
+          </ProtectedRoute>
+        ),
       },
       // dashboard
     ],
@@ -108,14 +125,7 @@ const router = createBrowserRouter([
         path: "/dashboard/user/bike-management",
         element: <UserBikeManagement />,
       },
-      {
-        path: "/dashboard/user/bike-details/:id",
-        element: (
-          <ProtectedRoute>
-            <BikeDetails />
-          </ProtectedRoute>
-        ),
-      },
+    
       {
         path: "/dashboard/user/my-rental",
         element: (

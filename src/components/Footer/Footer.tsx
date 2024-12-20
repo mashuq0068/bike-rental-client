@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="col-span-2 flex">
               <div className="">
                 <div className="flex items-center gap-5">
-                  <p className="text-3xl md:text-4xl font-extrabold text-center  ">
+                  <p className="text-3xl md:text-4xl font-bold text-center  ">
                     <span className="text-red-500">Bike</span>Ease
                   </p>
                   <p className="  lg:whitespace-nowrap mt-3">

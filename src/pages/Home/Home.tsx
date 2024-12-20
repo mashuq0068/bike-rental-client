@@ -1,27 +1,32 @@
 import ContactUs from "../../components/Home/ContactUs";
-import CouponsAndDiscounts from "../../components/Home/CuponsAndDiscounts";
 import Featured from "../../components/Home/Featured";
 import HeroSection from "../../components/Home/HeroSection";
 import Testimonials from "../../components/Home/Testimonials";
 import WhyChooseUs from "../../components/Home/WhyChooseus";
+import ChooseBike from "../../components/Home/ChooseBike";
+import HowItWorks from "../../components/Home/HowItWorks";
+
 
 const Home = () => {
   return (
     <div className="lg:space-y-28 space-y-16">
       <HeroSection />
-      {/* <section className="container">
+      <section className="">
+        <ChooseBike />
+      </section>
+      <section className="container">
         <Featured />
-      </section> */}
+      </section>
       <section>
         <WhyChooseUs />
       </section>
-      <section className="container">
+      <section>
         <Testimonials />
       </section>
       <section>
-        <CouponsAndDiscounts />
+        <HowItWorks/>
       </section>
-      <section className="container">
+      <section>
         <ContactUs/>
       </section>
     </div>

@@ -1,9 +1,4 @@
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper/modules";
+import Marquee from "react-fast-marquee";
 
 const testimonials = [
   {
@@ -27,65 +22,64 @@ const testimonials = [
       "I loved the ease of booking and the quality of the bikes. Highly recommend!",
   },
   {
-    id: 2,
-    name: "Jane Smith",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    quote: "The bikes are top-notch, and the customer service is unbeatable.",
+    id: 4,
+    name: "Sarah Connor",
+    image: "https://randomuser.me/api/portraits/women/46.jpg",
+    quote:
+      "Fantastic service, amazing bikes, and super smooth experience overall.",
   },
   {
-    id: 3,
-    name: "Michael Brown",
-    image: "https://randomuser.me/api/portraits/men/65.jpg",
+    id: 5,
+    name: "Alex Johnson",
+    image: "https://randomuser.me/api/portraits/men/75.jpg",
     quote:
-      "I loved the ease of booking and the quality of the bikes. Highly recommend!",
+      "Highly professional team and really easy to rent a bike. Loved it!",
+  },
+  {
+    id: 6,
+    name: "Emma Watson",
+    image: "https://randomuser.me/api/portraits/women/60.jpg",
+    quote:
+      "The best bike rental service in town! I’ll definitely come back again.",
   },
 ];
 
 const Testimonials = () => {
   return (
-    <section className="">
+    <section className=" container">
       <div className=" mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 text-gray-700">
-          What Our <span className="text-red-500">Customers</span> Say
+        {/* Section Title */}
+        <h2 className="text-4xl font-bold text-gray-900 text-center mb-12 uppercase">
+          What Our <span >Customers</span> Say
         </h2>
-        <Swiper
-          modules={[Pagination, Navigation]}
-          spaceBetween={30}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          breakpoints={{
-            // when window width is >= 768px
-            768: {
-              slidesPerView: 2, // 2 slides per view on tablets
-            },
-            // when window width is >= 1024px
-            1024: {
-              slidesPerView: 3, // 3 slides per view on larger screens
-            },
-          
-          }}
-          loop={true}
-          className=" mx-auto"
+
+        {/* Marquee Section */}
+        <Marquee
+          pauseOnHover
+          speed={70}
+         
+          gradient={false}
+          className="flex "
         >
           {testimonials.map((testimonial) => (
-            <SwiperSlide key={testimonial.id}>
-              <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover shadow-md"
-                />
-                <p className="text-lg italic text-gray-600 mb-4">
-                  "{testimonial.quote}"
-                </p>
-                <h3 className="text-xl font-bold text-gray-800">
-                  {testimonial.name}
-                </h3>
-              </div>
-            </SwiperSlide>
+            <div
+              key={testimonial.id}
+              className="bg-gray-100 mx-4 p-8 rounded-lg shadow-lg text-center flex-shrink-0 w-64"
+            >
+              <img
+                src={testimonial.image}
+                alt={testimonial.name}
+                className="w-20 h-20 rounded-full mx-auto mb-4 object-cover shadow-md"
+              />
+              <p className="text-md italic text-gray-700 mb-4">
+                "{testimonial.quote}"
+              </p>
+              <h3 className="text-lg font-bold text-gray-900">
+                {testimonial.name}
+              </h3>
+            </div>
           ))}
-        </Swiper>
+        </Marquee>
       </div>
     </section>
   );

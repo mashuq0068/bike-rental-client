@@ -7,7 +7,7 @@ const Navbar = () => {
     <header className="bg-gray-900/80 sticky top-0 z-50">
       <div className="container flex justify-between items-center p-4">
         {/* Logo */}
-        <div className="text-2xl font-bold text-white">PIKEZ.</div>
+        <div className="text-2xl font-bold text-white">BIKEASE.</div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6 text-sm uppercase">

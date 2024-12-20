@@ -6,7 +6,7 @@ import { logout } from "../features/auth/authSlice";
 // base query
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://bike-rental-backend-six.vercel.app/api",
-  credentials: "include",
+  // credentials: "include",
   prepareHeaders: (headers) => {
     const token = Cookies.get("token");
     if (token) {

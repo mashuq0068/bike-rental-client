@@ -4,7 +4,7 @@ const Error = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-800 to-gray-900 flex items-center justify-center text-white">
       <div className="text-center">
-        <h1 className="text-9xl font-extrabold tracking-widest text-red-500">
+        <h1 className="text-9xl font-bold tracking-widest text-red-500">
           404
         </h1>
         <div className="bg-red-500 px-2 text-sm rounded rotate-12 absolute">
