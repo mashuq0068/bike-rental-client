@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 // Define a Bike type for better type safety
 interface Bike {
+  [x: string]: any;
   id: string;
   brand: string;
   description: string;
@@ -82,7 +83,7 @@ const FeaturedSection = () => {
         {/* Explore All Button */}
         <div className="mt-12 text-center">
           <button
-            onClick={() => navigate("/dashboard/user/all-bikes")}
+            onClick={() => navigate("/bikes")}
             className="px-8 py-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 hover:shadow-lg transition-all duration-300"
           >
             Explore All

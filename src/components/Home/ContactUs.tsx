@@ -1,13 +1,12 @@
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
-import { openSuccessNotification } from "../../utils/successNotification";
+// import { openSuccessNotification } from "../../utils/successNotification";
 
 const ContactUs = () => {
-  const handleContactUs = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    openSuccessNotification(
-      "You successfully sent a message to us. We will reply to you soon."
-    );
-  };
+  // const handleContactUs = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   openSuccessNotification(
+  //     "You successfully sent a message to us. We will reply to you soon."
+  //   );
+  // };
 
   return (
     <section className="bg-gray-100">

@@ -31,7 +31,7 @@ const BikeDetails = () => {
         <img
           src={data?.data?.image}
           alt={data?.data?.model}
-          className="w-full h-64 object-cover"
+          className="w-full h-64 object-contain"
         />
         <div className="p-8">
           <h1 className="text-3xl font-semibold text-gray-800 mb-4">

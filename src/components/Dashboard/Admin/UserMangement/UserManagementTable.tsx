@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Table, Button, Modal, notification } from "antd";
+import { Table, Button, Modal, notification, Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { DeleteOutlined, CrownOutlined } from '@ant-design/icons';
+
 import {
   useDeleteSingleUserMutation,
   useGetAllUsersQuery,
@@ -9,6 +11,7 @@ import {
 } from "../../../../redux/features/user/userApi";
 import { openErrorNotification } from "../../../../utils/errorNotification";
 import Loader from "../../../Loader/Loader";
+import { GrUserAdmin } from "react-icons/gr";
 
 // import 'antd/dist/antd.css'; // Import Ant Design styles
 
@@ -94,29 +97,41 @@ const UserManagementTable = () => {
     { title: "Role", dataIndex: "role", key: "role" },
     {
       title: "Action",
-      key: "action",
       render: (_, record) => (
-        <div className="flex space-x-2">
+        <div className="flex space-x-3 items-center">
+          {/* Admin Role Indicator */}
           {record.role === "admin" ? (
-            <p className="bg-green-200 px-12 py-1 rounded-lg">Admin</p>
+            <div className="flex items-center bg-green-100 text-green-500 px-3 py-2 rounded-lg text-sm font-medium">
+              <GrUserAdmin className="mr-2" />
+              Admin
+            </div>
           ) : (
-            <Button
-              type="primary"
-              className="bg-green-500 text-white hover:bg-green-600"
-              onClick={() => promoteToAdmin(record)}
-            >
-              Promote to Admin
-            </Button>
+            // Promote to Admin Button
+            <Tooltip title="Promote to Admin">
+              <Button
+                type="default"
+                icon={<GrUserAdmin />}
+                className="border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
+                onClick={() => promoteToAdmin(record)}
+              >
+                Promote
+              </Button>
+            </Tooltip>
           )}
-          <Button
-            // type="danger"
-            className="bg-red-500 text-white hover:bg-red-600"
-            onClick={() => deleteUser(record)}
-          >
-            Delete
-          </Button>
+      
+          {/* Delete User Button */}
+          <Tooltip title="Delete User">
+            <Button
+              type="default"
+              icon={<DeleteOutlined />}
+              className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+              onClick={() => deleteUser(record)}
+            >
+              Delete
+            </Button>
+          </Tooltip>
         </div>
-      ),
+      )
     },
   ];
   if (isLoading) {
@@ -125,7 +140,7 @@ const UserManagementTable = () => {
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="md:text-2xl text-xl font-bold text-gray-800 text-center mb-8">
+      <h1 className="md:text-2xl text-xl font-bold text-gray-800  mb-8">
         <span className="text-red-500">User</span> Management
       </h1>
       <Table

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Button, Modal, notification, DatePicker, Form } from "antd";
@@ -124,7 +125,7 @@ const BikeReturnTable = () => {
       <h1 className="md:text-2xl text-xl font-bold text-gray-800 mb-8">
         Return <span className="text-red-500">Bike</span>
       </h1>
-      <DataTable columns={columns} data={data?.data ?? []} pagination />
+      <DataTable columns={columns as any} data={data?.data ?? []} pagination />
 
       <Modal title="Calculate Cost" open={!!selectedRental} onCancel={() => setSelectedRental(null)} footer={null}>
         {selectedRental && (
@@ -152,7 +153,7 @@ const BikeReturnTable = () => {
               <DatePicker
                 showTime={{ use12Hours: true, format: "h:mm a" }}
                 format="YYYY-MM-DD h:mm a"
-                disabledDate={disabledDate}
+                disabledDate={disabledDate as any}
                 disabledTime={disabledTime}
                 onChange={handleEndTimeChange}
                 value={endTime ? dayjs(endTime) : null}

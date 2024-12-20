@@ -1,77 +1,75 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi"; // Import menu icon from react-icons
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { FiMenu, FiX, FiHome, FiUser, FiSettings } from "react-icons/fi";
+import { AiOutlineGift } from "react-icons/ai";
 import { Menu, MenuProps } from "antd";
 import { useAppSelector } from "../../redux/hooks";
+import { MdOutlineDirectionsBike } from "react-icons/md";
 
-interface CustomMenuItem {
+type MenuItem = {
   key: string;
   label: string;
   icon?: React.ReactNode;
   url?: string;
-  children?: CustomMenuItem[];
-}
+};
 
-const adminItems: CustomMenuItem[] = [
+const adminItems: MenuItem[] = [
   {
-    key: "sub1",
+    key: "profile",
     label: "Profile",
-    icon: <MailOutlined />,
+    icon: <FiUser />, 
     url: "/dashboard/admin/profile",
   },
   {
-    key: "sub2",
+    key: "bike-management",
     label: "Bike Management",
-    icon: <AppstoreOutlined />,
+    icon: < MdOutlineDirectionsBike/>, 
     url: "/dashboard/admin/bike-management",
   },
   {
-    key: "sub4",
+    key: "user-management",
     label: "User Management",
-    icon: <SettingOutlined />,
+    icon: <FiSettings />, 
     url: "/dashboard/admin/user-management",
   },
   {
-    key: "sub5",
+    key: "return-bike",
     label: "Return Bike",
-    icon: <SettingOutlined />,
+    icon: < MdOutlineDirectionsBike />, 
     url: "/dashboard/admin/return-bike",
   },
   {
-    key: "sub6",
+    key: "coupon-management",
     label: "Coupon Management",
-    icon: <SettingOutlined />,
+    icon: <AiOutlineGift />, 
     url: "/dashboard/admin/coupon-management",
   },
   {
-    key: "sub7",
+    key: "home",
     label: "Home",
-    icon: <SettingOutlined />,
+    icon: <FiHome />, 
     url: "/",
   },
 ];
-const userItems: CustomMenuItem[] = [
+
+const userItems: MenuItem[] = [
   {
-    key: "sub1",
+    key: "profile",
     label: "Profile",
-    icon: <MailOutlined />,
+    icon: <FiUser />, 
     url: "/dashboard/user/profile",
   },
   {
-    key: "sub2",
+    key: "bike-management",
     label: "Bike Management",
-    icon: <AppstoreOutlined />,
+    icon: < MdOutlineDirectionsBike />, 
     url: "/dashboard/user/bike-management",
   },
   {
-    key: "sub4",
+    key: "my-rental",
     label: "My Rental",
-    icon: <SettingOutlined />,
+    icon: <FiSettings />, 
     url: "/dashboard/user/my-rental",
   },
 ];
@@ -80,25 +78,25 @@ const MenuItems: React.FC = () => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const items = user?.role === "admin" ? adminItems : userItems;
-  const defaultSelectedKey = items.find((item) =>
-    location.pathname.startsWith(item.url || "")
-  )?.key || false;
+  // const defaultSelectedKey = items.find((item) =>
+  //   location.pathname.startsWith(item.url || "")
+  // )?.key || false;
 
   const handleClick: MenuProps["onClick"] = (e) => {
     const clickedItem = items.find(
       (item) => item.key === e.key
-    ) as CustomMenuItem;
+    ) as any;
     if (clickedItem?.url) {
       navigate(clickedItem.url);
     }
   };
 
   return (
-    <div className="menu-bar z-50 fixed top-0 w-full lg:w-auto left-0 ">
+    <div className="menu-bar z-50 bg-gray-900 fixed top-0 w-full lg:w-auto left-0 ">
       {/* Logo and Menu Icon Section */}
-      <div className="flex items-center justify-between w-full lg:w-64 h-full bg-[#ebe9e9] p-5">
-        <div className="text-xl xl:text-2xl text-gray-800 font-bold">
-          <span className="text-red-500">Bike</span>Ease
+      <div className="flex items-center justify-between w-full lg:w-64 h-full bg-[#263148] p-5">
+        <div className="text-xl xl:text-2xl text-white uppercase font-bold">
+          <span className="">Bik</span>Ease.
         </div>
 
         <button
@@ -109,28 +107,23 @@ const MenuItems: React.FC = () => {
         </button>
       </div>
 
-      {/* Drawer (Sidebar Menu) */}
-      <div
-        className={`fixed top-0 left-0 bg-[#ebe9e9] h-full w-64 transform ${
+        {/* Sidebar Menu */}
+        <div
+        className={`fixed top-0 left-0 h-full w-64  shadow-lg transform transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
           drawerOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out lg:static lg:translate-x-0`}
+        }`}
       >
+      
         <Menu
           onClick={handleClick}
-          style={{ width: "100%" }}
-          defaultSelectedKeys={[defaultSelectedKey as string]}
-          // defaultSelectedKeys={["sub1"]}
+          selectedKeys={[location.pathname.split("/")[3]]}
           mode="inline"
           items={items.map((item) => ({
             key: item.key,
             icon: item.icon,
-            label: item.label,
-            children: item.children?.map((child) => ({
-              key: child.key,
-              icon: child.icon,
-              label: child.label,
-            })),
+            label: <span className="text-base">{item.label}</span>,
           }))}
+          className="h-full border-none text-base"
         />
       </div>
     </div>

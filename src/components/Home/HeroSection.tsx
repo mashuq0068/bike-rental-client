@@ -1,7 +1,9 @@
 import  { useEffect } from 'react';
 import Aos from "aos"
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+  const navigate = useNavigate()
   useEffect(()=>{
 Aos.init()
   },[])
@@ -23,8 +25,8 @@ Aos.init()
           morbi et malesuada tempor.
         </p>
         <div className="mt-6 flex space-x-4">
-          <button className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">Explore Bike</button>
-          <button className="border-2 border-red-500 text-red-500 px-6 py-2 rounded hover:bg-red-500 hover:text-white">
+          <button onClick={() => navigate('/bikes')} className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">Explore Bike</button>
+          <button onClick={() => navigate('/about-us')} className="border-2 border-red-500 text-red-500 px-6 py-2 rounded hover:bg-red-500 hover:text-white">
             About Us
           </button>
         </div>

@@ -1,187 +1,98 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { notification, Spin } from "antd";
-import React, { useEffect, useState } from "react";
-import { SmileOutlined } from "@ant-design/icons";
-import { useForm } from "react-hook-form";
-import {
-  useGetProfileQuery,
-  useUpdateProfileMutation,
-} from "../../../redux/features/user/userApi";
-import { openErrorNotification } from "../../../utils/errorNotification";
-import { openSuccessNotification } from "../../../utils/successNotification";
+import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from "recharts";
 
-interface UserProfile {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-}
-const defaultProfile: UserProfile = {
-  name: "John Doe",
-  email: "johndoe@example.com",
-  phone: "+1234567890",
-  address: "123 Main St, City, Country",
-};
+const AdminProfile = () => {
+  const dataPie = [
+    { name: "Hired", value: 58, color: "#82ca9d" },
+    { name: "Pending", value: 24, color: "#FF9800" },
+    { name: "Cancelled", value: 18, color: "#F44336" },
+  ];
 
-const AdminProfile: React.FC = () => {
-  const { data, isLoading, isFetching } = useGetProfileQuery(undefined);
-  const [updateProfile] = useUpdateProfileMutation();
-  console.log(data);
-  const [profileData, setProfileData] = useState<UserProfile | undefined>(
-    undefined
-  );
+  const earningsData = [
+    { month: "Jan", earnings: 10000 },
+    { month: "Feb", earnings: 12000 },
+    { month: "Mar", earnings: 15000 },
+    { month: "Apr", earnings: 18500 },
+    { month: "May", earnings: 17000 },
+    { month: "Jun", earnings: 16000 },
+    { month: "Jul", earnings: 17500 },
+    { month: "Aug", earnings: 15500 },
+  ];
 
-  const { name, email, phone, address } = profileData ?? defaultProfile;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<UserProfile>({
-    defaultValues: profileData,
-  });
-
-  useEffect(() => {
-    if (data?.data) {
-      setProfileData(data.data);
-      openNotification();
-      reset(data.data); // Reset the form with fetched data
-    }
-  }, [data?.data, reset]);
-
-  const onSubmit = async (formData: UserProfile) => {
-    // Here you would normally send the updated data to your backend
-    try {
-      await updateProfile(formData).unwrap();
-      openSuccessNotification("Your profile updated successfully");
-    } catch (err: any) {
-      openErrorNotification(`${err?.data?.message}`);
-    }
-  };
-
-  const openNotification = () => {
-    if(data?.data?.name){
-      notification.open({
-        message: `Welcome back, ${data?.data?.name}!`,
-        description: "We hope you have a great experience updating your profile.",
-        icon: <SmileOutlined style={{ color: "#52c41a" }} />,
-        style: {
-          backgroundColor: "#f0f9ff",
-          borderRadius: "8px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-          color: "#333",
-        },
-        placement: "topRight",
-      });
-    }
-   
-  };
-
-  if (isLoading || isFetching) {
-    return <Spin className="custom-spin fixed top-[50%] left-[50%]" />;
-  }
+  const bookingsData = [
+    { month: "Jan", bookings: 800 },
+    { month: "Feb", bookings: 850 },
+    { month: "Mar", bookings: 920 },
+    { month: "Apr", bookings: 985 },
+    { month: "May", bookings: 880 },
+    { month: "Jun", bookings: 900 },
+    { month: "Jul", bookings: 940 },
+    { month: "Aug", bookings: 950 },
+  ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">
-          <span className="text-red-500">Welcome</span>, {name}
-        </h1>
-        <p className="text-gray-600">Update your profile information below.</p>
-      </div>
-
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-          Profile Details
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className=" p-4 rounded-lg shadow-sm">
-            <h3 className="text-lg font-medium text-gray-800">Name</h3>
-            <p className="text-gray-600">{name}</p>
-          </div>
-          <div className=" p-4 rounded-lg shadow-sm">
-            <h3 className="text-lg font-medium text-gray-800">Email</h3>
-            <p className="text-gray-600">{email}</p>
-          </div>
-          <div className=" p-4 rounded-lg shadow-sm">
-            <h3 className="text-lg font-medium text-gray-800">Phone</h3>
-            <p className="text-gray-600">{phone}</p>
-          </div>
-          <div className=" p-4 rounded-lg shadow-sm">
-            <h3 className="text-lg font-medium text-gray-800">Address</h3>
-            <p className="text-gray-600">{address}</p>
-          </div>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <p className="text-gray-500">Total Revenue</p>
+          <h2 className="text-2xl font-bold">$8,450</h2>
+          <p className="text-red-500">-2.8% from last week</p>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <p className="text-gray-500">New Bookings</p>
+          <h2 className="text-2xl font-bold">386</h2>
+          <p className="text-green-500">+4.17% from last week</p>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <p className="text-gray-500">Rented Cars</p>
+          <h2 className="text-2xl font-bold">214 Unit</h2>
+          <p className="text-red-500">-2.8% from last week</p>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <p className="text-gray-500">Available Cars</p>
+          <h2 className="text-2xl font-bold">89 Unit</h2>
+          <p className="text-green-500">+3.45% from last week</p>
         </div>
       </div>
 
-      <div>
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-          Update Profile
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-gray-700">
-              Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              {...register("name", { required: "Name is required" })}
-              className="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:outline-red-500"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-gray-700">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              {...register("email", { required: "Email is required" })}
-              className="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:outline-red-500"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-gray-700">
-              Phone
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              {...register("phone", { required: "Phone number is required" })}
-              className="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:outline-red-500"
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-sm">{errors.phone.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="address" className="block text-gray-700">
-              Address
-            </label>
-            <textarea
-              id="address"
-              {...register("address", { required: "Address is required" })}
-              className="mt-1 p-3 border border-gray-300 rounded-lg w-full focus:outline-red-500"
-              rows={4}
-            />
-            {errors.address && (
-              <p className="text-red-500 text-sm">{errors.address.message}</p>
-            )}
-          </div>
-          <button
-            type="submit"
-            className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors"
-          >
-            Save Changes
-          </button>
-        </form>
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-white p-4 rounded-lg shadow-md col-span-2">
+          <h3 className="text-lg font-bold mb-4">Earnings Summary</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={earningsData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="earnings" stroke="#8884d8" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <h3 className="text-lg font-bold mb-4">Rent Status</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie data={dataPie} dataKey="value" nameKey="name" outerRadius={100} label>
+                {dataPie.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="bg-white p-4 rounded-lg shadow-md mt-6">
+        <h3 className="text-lg font-bold mb-4">Bookings Overview</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={bookingsData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="bookings" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
