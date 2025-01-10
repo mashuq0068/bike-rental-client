@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
@@ -12,100 +13,92 @@ export interface LoginData {
   email: string;
   password: string;
 }
-export interface IData{
-    
-}
+
 const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
 
- 
+  const [tooltipVisible, setTooltipVisible] = useState(true);
+
+
+
   const onSubmit = async (data: LoginData) => {
     const res = await login(data);
-    console.log(res);
     if (res?.data?.success) {
-      openSuccessNotification("you logged is successfully");
+      openSuccessNotification("You logged in successfully");
       Cookies.set("token", res.data.token, { expires: 7 });
       const { name, email, role } = res?.data?.data ?? { name: null, email: null, role: null };
-      const user: IUser = {
-        name,
-        email,
-        role,
-      };
+      const user: IUser = { name, email, role };
       dispatch(setUser(user));
-      console.log(res);
       if (location.state) {
         navigate(location.state);
       } else {
         navigate("/");
       }
-    }
-    if (res?.error) {
+    } else if (res?.error) {
       openErrorNotification("Invalid email or password given");
     }
-
-    console.log(data);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  ">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="container">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden mx-auto p-4 mt-8  w-full https://i.ibb.co/rMDhzg2/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-passwo.jpg flex">
+        <div className="bg-white justify-center items-center rounded-lg mx-auto p-4 mt-8 flex">
           {/* Left Side Image */}
-          <div className="hidden lg:block lg:w-3/4">
+          <div className="hidden lg:block max-w-[500px] w-full">
             <img
-              src="https://i.ibb.co/rMDhzg2/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-passwo.jpg" // Replace with your image URL
+              src="/images/login (2).png"
               alt="Sign Up"
               className="w-full h-full object-cover"
             />
           </div>
 
           {/* Form Section */}
-          <div className="w-full lg:w-1/2 p-8">
-            <h2 className="text-3xl font-bold mb-8 text-center text-red-500">
-              Login
-            </h2>
+          <div className="w-full bg-white rounded-lg shadow-md max-w-[400px] p-8 relative">
+            <h2 className="text-3xl font-bold mb-8 text-center text-red-500">Login</h2>
+            
+            {/* Tooltip */}
+            {tooltipVisible && (
+              <div className="absolute top-[-120px] left-1/2 transform -translate-x-1/2 bg-gray-700 text-white text-sm p-3 rounded shadow-lg z-10">
+                <p>
+                  <strong>Admin:</strong> email:admin123@gmail.com / pass: admin123
+                </p>
+                <p>
+                  <strong>User:</strong> email:user123@gmail.com / pass: user123
+                </p>
+                <button
+                  onClick={() => setTooltipVisible(false)}
+                  className="absolute top-1 right-2 text-white bg-transparent"
+                >
+                  &times;
+                </button>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-6">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 font-medium mb-2"
-                >
+                <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    // pattern: {
-                    //   value: /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                    //   message: "Enter a valid email address",
-                    // },
-                  })}
+                  {...register("email", { required: "Email is required" })}
                   placeholder="Enter your email"
                   className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-2">
-                    {errors.email.message}
-                  </p>
-                )}
+                {errors.email && <p className="text-red-500 text-sm mt-2">{errors.email.message}</p>}
               </div>
 
               <div className="mb-6">
-                <label
-                  htmlFor="password"
-                  className="block text-gray-700 font-medium mb-2"
-                >
+                <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
                   Password
                 </label>
                 <input
@@ -113,18 +106,13 @@ const LoginForm = () => {
                   id="password"
                   {...register("password", {
                     required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters long",
-                    },
+                    minLength: { value: 6, message: "Password must be at least 6 characters long" },
                   })}
                   placeholder="Enter your password"
                   className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-2">
-                    {errors.password.message}
-                  </p>
+                  <p className="text-red-500 text-sm mt-2">{errors.password.message}</p>
                 )}
               </div>
 
@@ -134,15 +122,12 @@ const LoginForm = () => {
               >
                 {isLoading ? <Spin className="custom-button-spin" /> : "Login"}
               </button>
-              <div>
-                <p className="text-center mt-5">
-                  {" "}
-                  New to the website? Go for{" "}
-                  <Link className="text-red-500 font-bold" to="/sign-up">
-                    sign-up
-                  </Link>
-                </p>
-              </div>
+              <p className="text-center mt-5">
+                New to the website?{" "}
+                <Link className="text-red-500 font-bold" to="/sign-up">
+                  Sign up
+                </Link>
+              </p>
             </form>
           </div>
         </div>

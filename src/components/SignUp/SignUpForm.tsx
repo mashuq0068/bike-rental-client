@@ -60,19 +60,20 @@ export const SignUpForm = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center  ">
-      <div className="container">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden mx-auto p-4 mt-8  w-full https://i.ibb.co/rMDhzg2/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-passwo.jpg flex">
+      <div className="container ">
+        <div className="bg-white  justify-center items-center rounded-lg overflow-hidden mx-auto p-4 mt-8  w-full https://i.ibb.co/rMDhzg2/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-passwo.jpg flex">
           {/* Left Side Image */}
-          <div className="hidden lg:block lg:w-3/4">
+          {/* Left Side Image */}
+          <div className="hidden lg:block max-w-[500px] w-full">
             <img
-              src="https://i.ibb.co/rMDhzg2/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-passwo.jpg" // Replace with your image URL
+              src="/images/login (2).png" // Replace with your image URL
               alt="Sign Up"
               className="w-full h-full object-cover"
             />
           </div>
 
           {/* Form Section */}
-          <div className="w-full lg:w-1/2 p-8">
+          <div className="w-full bg-white h-max rounded-lg drop-shadow-lg shadow-md max-w-[450px]  p-8">
             <h2 className="text-3xl font-bold mb-8 text-center text-red-500">
               Sign Up
             </h2>

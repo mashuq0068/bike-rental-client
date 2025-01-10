@@ -2,7 +2,7 @@
 
 import { Table, Button, Modal, notification, Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { DeleteOutlined, CrownOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 
 import {
   useDeleteSingleUserMutation,
